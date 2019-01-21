@@ -13,5 +13,37 @@ module.exports = {
       { name: "apple-mobile-web-app-status-bar-style", content: "black" }
     ],
     ["meta", { name: "msapplication-TileColor", content: "#000000" }]
-  ]
+  ],
+  themeConfig: {
+    repo: "zhangxinmei/fe-summary",
+    docsDir: "docs",
+    editLinks: true,
+    editLinkText: "编辑此页",
+    activeHeaderLinks: false,
+    sidebarDepth: 2,
+    lastUpdated: "上次更新",
+    nav: [{ text: "blog", link: "https://github.com/zhangxinmei" }],
+    sidebar: [
+      {
+        title: "简介",
+        collapsable: false,
+        children: ["/"]
+      },
+      {
+        title: "JS",
+        collapsable: false,
+        children: ["/js/javascript"]
+      },
+      {
+        title: "CSS",
+        collapsable: false,
+        children: ["/css/css"]
+      },
+      {
+        title: "Vue",
+        collapsable: false,
+        children: ["/vue/vue"]
+      }
+    ]
+  }
 };
