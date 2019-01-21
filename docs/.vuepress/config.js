@@ -2,7 +2,7 @@ module.exports = {
   base: "/fe-summary/",
   title: "",
   description: "",
-  ga: "",
+  ga: "UA-132397402-1",
   head: [
     ["link", { rel: "icon", href: `/logo.png` }],
     ["link", { rel: "manifest", href: "/manifest.json" }],
@@ -32,7 +32,7 @@ module.exports = {
       {
         title: "JS",
         collapsable: false,
-        children: ["/js/javascript", "/js/javascriptType"]
+        children: ["/js/javascriptType", "/js/clone"]
       },
       {
         title: "CSS",
