@@ -32,17 +32,17 @@ module.exports = {
       {
         title: "JS",
         collapsable: false,
-        children: ["/js/javascript.md"]
+        children: ["/js/javascript"]
       },
       {
         title: "CSS",
         collapsable: false,
-        children: ["/css/css.md"]
+        children: ["/css/css"]
       },
       {
         title: "Vue",
         collapsable: false,
-        children: ["/vue/vue.md"]
+        children: ["/vue/vue"]
       }
     ]
   }
