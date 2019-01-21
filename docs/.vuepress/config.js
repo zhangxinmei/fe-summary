@@ -2,7 +2,7 @@ module.exports = {
   base: "/fe-summary/",
   title: "",
   description: "",
-  ga: "UA-132397402-1",
+  ga: "",
   head: [
     ["link", { rel: "icon", href: `/logo.png` }],
     ["link", { rel: "manifest", href: "/manifest.json" }],
@@ -22,7 +22,7 @@ module.exports = {
     activeHeaderLinks: false,
     sidebarDepth: 2,
     lastUpdated: "上次更新",
-    nav: [{ text: "blog", link: "https://github.com/zhangxinmei" }],
+    // nav: [{ text: "blog", link: "https://github.com/zhangxinmei" }],
     sidebar: [
       {
         title: "简介",
