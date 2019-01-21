@@ -2,7 +2,7 @@ module.exports = {
   base: "/fe-summary/",
   title: "",
   description: "",
-  ga: "UA-132397402-1",
+  ga: "",
   head: [
     ["link", { rel: "icon", href: `/logo.png` }],
     ["link", { rel: "manifest", href: "/manifest.json" }],
