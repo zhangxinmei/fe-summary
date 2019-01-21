@@ -43,6 +43,7 @@ console.log(b); //30
 
 因为在栈内存中的数据发生复制行为时，系统会自动为新的变量分配一个新值，因此a和b之间互相独立，没有影响，所以尽管b的值改变了，a的值也不会被改变。
 
+
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/p3.png)
 
 ## 引用类型
