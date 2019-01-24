@@ -1,4 +1,4 @@
-## 什么是格式化上下文
+## 块格式化上下文(BFC)
 官方MDN的解释：
 块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。
 ## 通俗的理解
@@ -30,7 +30,7 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
 * 计算BFC高度是包含其浮动子元素的.
 
 
-### BFC margin重叠问题
+## BFC margin重叠问题
 处在**同一**BFC中，且盒子都不满足产生BFC的情况下，会产生margin重叠。记住一定是同一BFC中，所以里面的盒子不能产生BFC，一但产生就创建了一个新的BFC，那么他们也就不会出现margin重叠了。
 ```html
   <div class="parent">
@@ -65,7 +65,7 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
 ```
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/b0.png)
 从上面的图片图片中也可以看出来处在根元素html中的非BFC元素也会产生margin重叠，因为html是一个BFC，因此里面的元素就相当于处在同一个BFC中，因此他们会产生margin重叠。
-### 消除BFC中的margin重叠
+## 消除BFC中的margin重叠
 需要给发生重叠中的元素设置任何一个满足产生BFC的css样式都能取消重叠。但在这个问题上我产生了一点疑问就是：我发现我给上面的child加 overflow: hidden;很多上面提到产生BFC的属性都没有用，只有display为inline-block和设置float浮动才有效果，其他的还是一样有重叠。而当我给child都加上一层div以后，加上加任何能产生BFC的属性都有效果了，margin不再重叠。我弄不明白是因为什么呢？
 上代码和图：
 
@@ -117,7 +117,7 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
 ```
 这里包了一层div之后就，再加 overflow: hidden;就可以，并且我还试过其他可以产生BFC的元素都是可以实现的。
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/b3.png)
-### BFC中的作用
+## BFC的作用
 #### 1. 用于清除浮动，防止容器高度坍塌
 我们知道如果元素设置了浮动，那么他的父元素的高度会坍塌，如下：
 ```html
