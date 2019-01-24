@@ -37,7 +37,7 @@ module.exports = {
       {
         title: "CSS",
         collapsable: false,
-        children: ["/css/css"]
+        children: ["/css/bfc"]
       },
       {
         title: "Vue",
