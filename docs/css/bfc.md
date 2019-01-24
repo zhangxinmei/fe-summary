@@ -50,6 +50,7 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
       }
 ```
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/b1.png)
+
 我们给parent设置了 overflow: hidden;那么parent也就是一个BFC。所以里面的child都处在同一个BFC中,从图中也可以看到明显的margin重叠，因为按照不重叠的话child之间的间距应该是20px，但是实际是10px。
 
 ```html
@@ -64,9 +65,10 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
       }
 ```
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/b0.png)
+
 从上面的图片图片中也可以看出来处在根元素html中的非BFC元素也会产生margin重叠，因为html是一个BFC，因此里面的元素就相当于处在同一个BFC中，因此他们会产生margin重叠。
 ## 消除BFC中的margin重叠
-需要给发生重叠中的元素设置任何一个满足产生BFC的css样式都能取消重叠。但在这个问题上我产生了一点疑问就是：我发现我给上面的child加 overflow: hidden;很多上面提到产生BFC的属性都没有用，只有display为inline-block和设置float浮动才有效果，其他的还是一样有重叠。而当我给child都加上一层div以后，加上加任何能产生BFC的属性都有效果了，margin不再重叠。我弄不明白是因为什么呢？
+需要给发生重叠中的元素设置任何一个满足产生BFC的css样式都能取消重叠。但在这个问题上我产生了一点疑问就是：我发现我给上面的child加 overflow: hidden;很多上面提到产生BFC的属性都没有用，只有display为inline-block和设置float浮动才有效果，其他的还是一样有重叠。而当我给child都加上一层div以后，加上任何能产生BFC的属性都有效果了，margin不再重叠。我弄不明白是因为什么呢？
 上代码和图：
 
 ```html
@@ -88,6 +90,7 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
       }
 ```
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/b1.png)
+
 ```html
      <div class="parent">
          <div class="box">
@@ -193,7 +196,7 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
 
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/b10.png)
 
-##### 2. 实现两列布局的方法
+#### 2. 实现两列布局的方法
 再根据BFC的特性：
 
 > BFC的区域不会与float box重叠。
@@ -224,6 +227,7 @@ BFC通俗一点来说就是一个独立布局的环境，在这个环境里面�
         }
 ```
 ![image](https://github.com/zhangxinmei/summary/raw/master/img/b11.png)
+
 如上图，轻松实现两列自适应布局，不管屏幕多大都会自适应。是不是很棒！
 
 参考资料：
