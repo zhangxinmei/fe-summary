@@ -61,3 +61,34 @@ npm init -y
 yarn init 
 
 ```
+
+npm将会为你自动创建一个package.json文件，你安装的所有依赖和命令都会在这个文件中。
+
+所以现在，我们将要安装我们将要使用的唯一依赖项--Graphpack
+
+[Graphpack](https://github.com/glennreyes/graphpack)允许你创建零配置的GraphQL服务器，对于刚开始学习GraphQL的我们来说这将帮助我们学习更多内容，而不必担心复杂的服务器配置。
+
+在你的根目录中，在终端输入以下命令：
+
+```
+
+npm install --save-dev graphpack
+
+```
+
+如果你使用yarn，则输入以下命令：
+
+```
+yarn add --dev graphpack
+```
+
+安装完graphpack之后，找到package.json文件中scripts配置项，加上下面的代码：
+
+```js
+"scripts": {
+    "dev": "graphpack",
+    "build": "graphpack build"
+}
+```
+
+我们将创建一个名为src的文件夹，它将成为整个服务器中唯一的文件夹。
