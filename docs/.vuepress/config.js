@@ -43,6 +43,11 @@ module.exports = {
         title: "Vue",
         collapsable: false,
         children: ["/vue/vue"]
+      },
+      {
+        title: "GraphQl",
+        collapsable: false,
+        children: ["/graphql/graphql"]
       }
     ]
   }

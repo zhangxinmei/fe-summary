@@ -1,0 +1,63 @@
+# GraphQL入门指南
+
+![image](https://cdn-images-1.medium.com/max/2600/1*sbPjm_cUHedMps6Kdy2F-A.jpeg)
+
+现如今最常讨论的技术之一便是API。很多人不知道什么是API，简单的来说，API代表应用程序编程接口（Application Programming Interface）。顾名思义，就是为开发者、用户、消费者提供数据交互的接口。
+
+你可以将API视为调酒师，你向调酒师要一杯酒，然后他为你提供你想要的酒。看似非常的简单，但是为什么会存在问题呢？
+
+自现在网络发展以来，构建API并不像听起来那么难，但是学习和理解API却不是一件简单的事。很多开发者将会使用你的API来构建某些内容，或者仅仅是使用数据。因此，你的API应该尽可能简洁，直观。经过精心设计的API将非常易于学习和使用，同时也是很直观的，所以在开始设计你的API时一定要记住这点。
+
+一直以来我们都在使用REST来构建API，随之也带来了一些问题。使用REST来设计构建API时，你将会面临一些问题，例如：
+
+* 你需要访问很多资源路径
+* 不易于开发者学习和理解你的API
+* 存在信息过度或者是信息不足的问题
+
+为了解决这些问题，Facebook创建了GraphQL。今天，我认为GraphQL是构建API的最佳方式。本文将会告诉你现在为什么需要学习GraphQL。
+
+通过这篇文章，你将学习到GraphQL的工作原理。我将向你展示如何使用GraphQL创建设计精良、高效和功能强大的API。
+
+在这之前你可能已经听过GraphQL，因为有很多人和公司已经在使用GraphQL。由于GraphQL是开源的，因此它的社区已经变得非常强大。
+
+那么现在，是时候开始在实践中学习GraphQL是如何工作的了，以及感受它的魔力。
+
+### 什么是GraphQL？
+
+[GraphQL](https://graphql.org/)是Facebook开发的一种开源查询语言。它为我们提供了一种更有效的方法来设计、创建和使用我们的API，可以说它是REST的替代品。
+
+GraphQL有很多功能，例如：
+* 你可以编写你想要的数据，并获取你所需要的数据。不再像我们使用REST那样过度获取信息。
+* It gives us a single endpoint, no more version 2 or version 3 for the same API。
+* GraphQL是强类型的，您可以在执行之前在GraphQL类型系统中验证查询。它可以帮助我们构建更强大的API。
+
+这是一篇关于GraphQL的基础介绍--为什么它如此强大以及为什么它如今获得了大量人气。如果你想了解更多关于GraphQL的信息，我建议你查看[GraphQL](https://graphql.org/)官网并查看它。
+
+### 开始
+
+本文的主要目的不是学习如何配置GraphQL服务器，所以我们现在还没有深入研究。而本文的主要目的在于了解GraphQL在实践中的工作原理，因此我们将使用一个名为[Graphpack](https://github.com/glennreyes/graphpack)的服务器。
+
+在开始我们的项目前，我们需要创建一个新的文件夹，你可以随意命名，我打算将它命名为graphql-server：
+
+打开你的终端并输入：
+
+```
+mkdir graphql-server
+
+```
+
+现在，你需要在你的电脑上安装npm或者yarn，npm和yarn是JavaScript编程语言的包管理器，对于Node.js，默认包管理器是npm。
+
+进入你创建的文件夹中，输入以下命令：
+
+```
+npm init -y
+
+```
+
+如果你使用yarn，则输入以下命令：
+
+```
+yarn init 
+
+```
