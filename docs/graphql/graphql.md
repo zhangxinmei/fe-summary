@@ -92,3 +92,55 @@ yarn add --dev graphpack
 ```
 
 我们将创建一个名为src的文件夹，它将成为整个服务器中唯一的文件夹。
+
+创建完名为src的文件夹之后，我们将在src文件夹下面创建3个文件。首先创建名为schema.graphql的文件夹，在这个文件夹中,写下下面的代码：
+
+```js
+
+type Query {
+  hello: String
+}
+
+```
+
+schema.graphql文件将是我们的整个GraphQL架构，如果你不懂这是什么，被担心，我稍后会解释。
+
+接着在我们的src文件夹中新建第二个名为resolvers.js的文件夹，代码如下：
+
+```js
+import { users } from "./db";
+
+const resolvers = {
+  Query: {
+    hello: () => "Hello World!"
+  }
+};
+
+export default resolvers;
+```
+
+This resolvers.js file is going to be the way we provide the instructions for turning a GraphQL operation into data.
+
+最后，在src文件夹下建第三个文件db.js：
+
+```js
+export let users = [
+  { id: 1, name: "John Doe", email: "john@gmail.com", age: 22 },
+  { id: 2, name: "Jane Doe", email: "jane@gmail.com", age: 23 }
+];
+```
+
+在本教程中，我们没有使用真是的数据库。因此，db.js文件将模拟数据库，仅用于学习目的。
+
+现在我们的src文件夹应该如下：
+
+```
+src
+  |--db.js
+  |--resolvers.js
+  |--schema.graphql
+```
+
+现在如果你在终端运行npm run dev 或者 yarn dev，你就会在终端看到以下输出：
+
+![image](https://cdn-images-1.medium.com/max/1600/1*FKJYY9qqg4PLBvziWPlhVg.png)
