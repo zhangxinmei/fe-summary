@@ -14,7 +14,7 @@
 * 不易于开发者学习和理解你的API
 * 存在信息过度或者是信息不足的问题
 
-为了解决这些问题，Facebook创建了GraphQL。今天，我认为GraphQL是构建API的最佳方式。本文将会告诉你现在为什么需要学习GraphQL。
+为了解决这些问题，Facebook创建了GraphQL。今天，我认为GraphQL是构建API的最佳方式。本文将会告诉你为什么需要学习GraphQL。
 
 通过这篇文章，你将学习到GraphQL的工作原理。我将向你展示如何使用GraphQL创建设计精良、高效和功能强大的API。
 
@@ -28,7 +28,7 @@
 
 GraphQL有很多功能，例如：
 * 你可以编写你想要的数据，并获取你所需要的数据。不再像我们使用REST那样过度获取信息。
-* It gives us a single endpoint, no more version 2 or version 3 for the same API。
+* 它将为我们提供单一的资源路径，不再为同一API提供多个版本。
 * GraphQL是强类型的，您可以在执行之前在GraphQL类型系统中验证查询。它可以帮助我们构建更强大的API。
 
 这是一篇关于GraphQL的基础介绍--为什么它如此强大以及为什么它如今获得了大量人气。如果你想了解更多关于GraphQL的信息，我建议你查看[GraphQL](https://graphql.org/)官网并查看它。
@@ -119,7 +119,7 @@ const resolvers = {
 export default resolvers;
 ```
 
-This resolvers.js file is going to be the way we provide the instructions for turning a GraphQL operation into data.
+resolvers.js文件将是我们将GraphQL操作转换为数据指令的方式。
 
 最后，在src文件夹下建第三个文件db.js：
 
@@ -144,3 +144,344 @@ src
 现在如果你在终端运行npm run dev 或者 yarn dev，你就会在终端看到以下输出：
 
 ![image](https://cdn-images-1.medium.com/max/1600/1*FKJYY9qqg4PLBvziWPlhVg.png)
+
+现在通过本地访问localhost:4000,这意味着我们已经准备好开始在GraphQL中编写我们的第一个查询，突变和订阅。本地运行以后你可以看到GraphQL Playground，这是一个功能强大的GraphQL IDE，可用于更好的开发工作流程。如果你想了解更多关于GraphQL Playground，[点击这里](https://www.prisma.io/blog/introducing-graphql-playground-f1e0a018f05d/)
+
+### 概要
+GraphQL有自己的语言类型，用于编写模式。这是一种称为模式定义语言（SDL）的人类可读模式语法。（TODO//TThis is a human-readable schema syntax called Schema Definition Language (SDL)）,无论你使用何种技术，SDL都是相同的 - 你可以将其用于你想要的任何语言或框架。
+
+这种模式语言非常有用，因为它很容易就知道你的API将具有哪些类型，你可以通过正确的方式来理解它。
+
+### 类型
+类型是GraphQL最重要的特性之一，类型是自定义的对象，代表着API的外观。举个例子。如果你正在构建一个社交媒体应用程序，那么你的API应该具有Posts, Users, Likes, Groups等类型。
+
+类型具有字段，这些字段返回特定类型的数据。例如，我们创建一个用户类型，那么这个用户类型应该具有name, email和age字段。类型字段可以是任何类型，并始终返回一种数据类型，如Int，Float，String，Boolean，ID，对象类型列表或自定义对象类型。
+
+现在我们开始写我们的第一个类型，在schema.graphql文件用如下代码替换已存在的Query类型：
+
+```js
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  age: Int
+}
+
+```
+每个用户都将拥有一个ID，因此我们给它提供了ID类型。用户也会有一个name和eamil，所以我们给它一个String类型，而age我们给它一个Int类型，很简单吧？
+
+那么，每行末尾的!是什么意思呢？感叹号表示字段不可为空，这意味着每个字段必须在每个查询中返回一些数据。用户User类型中唯一可以为空的字段是age。
+
+在GraphQL中，将处理三个主要概念：
+
+* 查询（queries）：从服务器获取数据的方式。
+
+* 变更（mutations）：修改服务器上的数据并获取更新的数据（创建，更新，删除）的方式。
+
+* 订阅（subscriptions）：与服务器保持实时连接的方式。
+
+我将会向你解释所有这些概念，让我们先从查询开始吧！
+
+
+### 查询（Queries）
+简单的解释，GraphQL中的查询就是你获取数据的方式。GraphQL查询中最棒的事情之一就是可以获取到你所需的确切数据，不多也不少。这将对我们的API产生积极的影响--不再像使用REST API那样过度获取或提取不足的信息。
+
+我们将在GraphQL中创建第一个类型的Query，我们所有的查询都将以此类型结束。首先，在schema.graphql编写一个名为Query的新类型：
+
+```js
+
+type Query {
+  users: [User!]!
+}
+
+```
+
+这很简单：users查询将返回给我们一个或多个用户的数组，这个数组不会返回null，因为我们给users加了!，这意味着users是一个不可为空的查询，它总是会返回一些数据。
+
+但是我们也可以返回特定的用户，为此，我们将创建一个名为user的新查询。在我们的Query类型中，写入以下代码：
+
+```js
+user(id: ID!): User!
+
+```
+
+现在我们的Query类型应该如下所示：
+
+```js
+
+type Query {
+  users: [User!]!
+  user(id: ID!): User!
+}
+
+```
+
+如你所看到的，使用GraphQL中的查询，我们也可以传递参数。在这个例子中，要查询特定用户，我们将传递其ID。
+
+但是，你可能会想：GraphQL是怎么知道获取数据的具体位置的？这就是为什么我们还需要有一个resolvers.js文件，该文件告诉GraphQL它将如何以及从何处获取数据。
+
+首先，在resolvers.js文件中导入刚刚创建的db.js，这时你的resolvers.js文件应如下所示：
+
+```js
+
+import { users } from "./db";
+
+const resolvers = {
+  Query: {
+    hello: () => "Hello World!"
+  }
+};
+
+export default resolvers;
+
+```
+
+我们将创建第一个查询，找到resolvers.js文件并替换其中的hello函数。现在，您的查询类型应如下所示：
+
+```js
+
+import { users } from "./db";
+
+const resolvers = {
+  Query: {
+    user: (parent, { id }, context, info) => {
+      return users.find(user => user.id === id);
+    },
+    users: (parent, args, context, info) => {
+      return users;
+    }
+  }
+};
+
+export default resolvers;
+
+```
+
+现在，来解释一下它是如何工作的：
+每个查询解析器都有四个参数。在user函数中，我们将id作为参数传递，然后返回与传递的id匹配的特定用户，就是这么的简单。
+
+在users函数中，我们将返回已存在的users数组，它将始终给我们返回所有的用户。
+
+现在，我们将测试我们的查询是否运行正常。访问localhost：4000并输入以下代码：
+
+```js
+query {
+  users {
+    id
+    name
+    email
+    age
+  }
+}
+```
+
+这时候应该给我们返回所有的用户。
+
+或者，如果要返回特定用户：
+
+```js
+query {
+  user(id: 1) {
+    id
+    name
+    email
+    age
+  }
+}
+```
+
+接下来，我们将开始学习变更（**mutations**），这是GraphQL中最重要的功能之一。
+
+### 变更（Mutations）
+
+在GraphQL中，mutations是您修改服务器上的数据并获取更新数据的方式，你可以把它跟REST中的CUD（创建，更新，删除）一样思考。
+
+我们将在GraphQL中创建我们的第一个类型变更，我们所有的变更都将以这种类型结束。因此，找到schema.graphql并编写一个名为mutation的新类型：
+
+```js
+type Mutation {
+  createUser(id: ID!, name: String!, email: String!, age: Int): User!
+  updateUser(id: ID!, name: String, email: String, age: Int): User!
+  deleteUser(id: ID!): User!
+}
+```
+
+正如你所见，我们将有三个变更：
+
+createUser：我们应该传递ID，name，emial和age。它将会为我们创建一个新的用户。
+
+updateUser：我们应该传递一个ID，一个新的name，email或age，它将会为我们返回一个新用户。
+
+deleteUser：我们应该传递一个ID，它将会为我们返回一个新用户。
+
+现在，找到resolvers.js文件并在Query对象下面，创建一个新的变更对象，如下所示：
+
+```js
+Mutation: {
+    createUser: (parent, { id, name, email, age }, context, info) => {
+      const newUser = { id, name, email, age };
+
+      users.push(newUser);
+
+      return newUser;
+    },
+    updateUser: (parent, { id, name, email, age }, context, info) => {
+      let newUser = users.find(user => user.id === id);
+
+      newUser.name = name;
+      newUser.email = email;
+      newUser.age = age;
+
+      return newUser;
+    },
+    deleteUser: (parent, { id }, context, info) => {
+      const userIndex = users.findIndex(user => user.id === id);
+
+      if (userIndex === -1) throw new Error("User not found.");
+
+      const deletedUsers = users.splice(userIndex, 1);
+
+      return deletedUsers[0];
+    }
+  }
+```
+现在，resolvers.js文件应如下所示：
+
+```js
+import { users } from "./db";
+
+const resolvers = {
+  Query: {
+    user: (parent, { id }, context, info) => {
+      return users.find(user => user.id === id);
+    },
+    users: (parent, args, context, info) => {
+      return users;
+    }
+  },
+  Mutation: {
+    createUser: (parent, { id, name, email, age }, context, info) => {
+      const newUser = { id, name, email, age };
+
+      users.push(newUser);
+
+      return newUser;
+    },
+    updateUser: (parent, { id, name, email, age }, context, info) => {
+      let newUser = users.find(user => user.id === id);
+
+      newUser.name = name;
+      newUser.email = email;
+      newUser.age = age;
+
+      return newUser;
+    },
+    deleteUser: (parent, { id }, context, info) => {
+      const userIndex = users.findIndex(user => user.id === id);
+
+      if (userIndex === -1) throw new Error("User not found.");
+
+      const deletedUsers = users.splice(userIndex, 1);
+
+      return deletedUsers[0];
+    }
+  }
+};
+
+export default resolvers;
+```
+现在，我们将测试我们的mutations是否正工作,运行localhost：4000并输入以下代码：
+
+```js
+mutation {
+  createUser(id: 3, name: "Robert", email: "robert@gmail.com", age: 21) {
+    id
+    name
+    email
+    age
+  }
+}
+```
+
+它将会返回给我们一个新的用户，如果你想尝试创建新的的mutations，我建议你可以自己尝试一下！尝试删除你所创建的同一用户，以查看它是否正常工作。
+
+最后，我们将开始学习订阅（**subscriptions**），以及学习为什么它们如此强大。
+
+### 订阅（Subscriptions）
+
+正如我之前所说，订阅（subscriptions）是您与服务器保持实时连接的方式。这意味着无论何时在服务器中发生事件，并且每当调用该事件时，服务器都会将相应的数据发送到客户端。
+
+通过使用订阅，你可以保持你的应用在不同的用户之间得到最新的更改。
+
+![image](https://cdn-images-1.medium.com/max/1600/1*NaIPy126r9Ie5NwjS3g-rg.png)
+
+基本的订阅应该如下：
+
+```js
+subscription {
+  users {
+    id
+    name
+    email
+    age
+  }
+}
+```
+你可能会说它与查询非常相似，是的，但它们的工作方式不同。当服务器中的某些内容更新时，服务器将运行订阅中指定的GraphQL查询，并将新更新的结果发送到客户端。
+
+我们并不打算在这篇特定的文章中使用订阅，但是如果你想了解更多关于它们的信息，请[点击此处](https://hackernoon.com/from-zero-to-graphql-subscriptions-416b9e0284f3)。
+
+### 总结
+
+正如你所见，GraphQL是一项非常强大的新技术。它为我们提供了构建更好的API的真正能力。这就是为什么我建议你现在开始学习GraphQL，对我来说，它最终将取代REST。
+
+感谢你阅读这篇文章，可以在下面发表评论！
+
+🐦[在推特上关注我！
+](https://twitter.com/leonardomso)
+
+⭐[在GitHub上关注我！
+](https://github.com/leonardomso)
+
+我正在寻找一个机会，所以如果有任何我喜欢听到的，请在我的推特上与我联系！
+
+原文地址：[https://medium.freecodecamp.org/a-beginners-guide-to-graphql-86f849ce1bec](https://medium.freecodecamp.org/a-beginners-guide-to-graphql-86f849ce1bec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
