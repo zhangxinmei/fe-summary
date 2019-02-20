@@ -112,3 +112,76 @@ app.use('/graphql', graphqlHTTP({
 graphiql 是一个 Web UI，您可以使用它来测试GraphQL端点（GraphQL endpoints）//TODO。我们将其设置为true，以便更容易测试我们创建的各种GraphQL端点。
 
 ### schema
+
+GraphQL 只有一个外部端点 /graphql，此端点可以有多个其他端点执行各种操作，这些端点将在 schema 中指定。
+
+schema 将执行以下操作：
+
+* 指定端点
+
+* 指示端点的输入和输出字段 （Indicate the input and output fields for the endpoint）
+
+* 指示在命中端点时应执行的操作，依此类推。（Indicate what action should be done when an endpoint is hit and so on.）
+
+schema 在代码中定义如下：
+
+```js
+const schema = new GraphQLSchema({ query: queryType });
+```
+
+schema 可以包含查询和变更类型，但是这篇文章将仅关注查询类型。
+
+### 查询（query）
+
+你可以在 schema 中看到查询已设置为 queryType，我们使用以下命令从 query.js 文件中导入queryType：
+
+```js
+const {queryType} = require('./query.js');
+```
+
+query.js 是我们即将创建的自定义文件，query 是我们在 schema 中指定只读端点的地方。
+
+在项目中新建一个名为 query.js 的文件，并将以下代码复制到其中：
+
+```js
+const { GraphQLObjectType,
+    GraphQLString
+} = require('graphql');
+
+
+//Define the Query
+const queryType = new GraphQLObjectType({
+    name: 'Query',
+    fields: {
+        hello: {
+            type: GraphQLString,
+
+            resolve: function () {
+                return "Hello World";
+            }
+        }
+    }
+});
+
+exports.queryType = queryType;
+```
+
+### 查询说明
+
+queryType创建为GraphQLObjectType并命名为Query。（queryType is created as a GraphQLObjectType and given the name Query.）
+
+字段是我们指定各种端点的地方，因此我们在这里添加一个名为 hello 的端点，hello 有一个 GraphQLString 类型，这意味着该端点的返回类型为 String。这里的类型是 GraphQLString 而不是 String，因为这是 GraphQL 架构，因此直接使用 String 是不行的。
+
+resolve 函数表示调用端点时要执行的操作，这里的操作是返回一个字符串 Hello World。
+
+最后，我们用 exports.queryType = queryType 导出 querytype，这是为了确保我们可以在server.js中导入它。
+
+### Running the Application
+
+
+
+
+
+
+
+
