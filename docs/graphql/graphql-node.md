@@ -288,4 +288,118 @@ movie: {
         }
 ```
 
-这个资源路径的返回类型是movieType，将很快被定义。
+这个请求的返回类型是 movieType，将很快被定义。
+
+args 参数用于指示 movie 请求的输入，这个请求的输入是 id，其类型为 **GraphQLInt**。resolve 函数从电影列表中返回与 id 相匹配的电影。**find** 是一个 lodash 中的函数，用于查找列表中的元素。
+
+query.js 的完整代码如下所示：
+
+```js
+const { GraphQLObjectType, GraphQLString, GraphQLInt } = require("graphql");
+const _ = require("lodash");
+
+const { movieType } = require("./types.js");
+let { movies } = require("./data.js");
+
+//Define the Query
+const queryType = new GraphQLObjectType({
+  name: "Query",
+  fields: {
+    hello: {
+      type: GraphQLString,
+
+      resolve: function() {
+        return "Hello World";
+      }
+    },
+
+    movie: {
+      type: movieType,
+      args: {
+        id: { type: GraphQLInt }
+      },
+      resolve: function(source, args) {
+        return _.find(movies, { id: args.id });
+      }
+    }
+  }
+});
+
+exports.queryType = queryType;
+```
+
+从上面的代码中，我们可以看到 **movieType** 实际上是在 **types.js** 中定义的。
+
+### 添加自定义类型 movieType
+
+创建一个名为 types.js 的文件，添加以下代码：
+
+```js
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+  GraphQLInt
+} = require("graphql");
+
+// Define Movie Type
+movieType = new GraphQLObjectType({
+  name: "Movie",
+  fields: {
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    year: { type: GraphQLInt },
+    directorId: { type: GraphQLID }
+  }
+});
+
+exports.movieType = movieType;
+```
+
+可以看出 movieType 是以 GraphQLObjectType 创建的，它有 4 个字段：id，name，year 和 directorId，在添加这些字段时，也会指定每个字段的类型。这些字段直接从数据中来的，在我们的这个例子中，它将来自电影列表。
+
+### 为 director 请求添加查询和类型
+
+像电影一样，甚至还可以添加导演请求。
+在 query.js 中，可以按如下方式添加 director 请求：
+
+```js
+director: {
+            type: directorType,
+            args: {
+                id: { type: GraphQLInt }
+            },
+            resolve: function (source, args) {
+                return _.find(directors, { id: args.id });
+            }
+        }
+```
+
+可以在 types.js 中添加 directorType 的代码：
+
+```js
+//Define Director Type
+directorType = new GraphQLObjectType({
+  name: "Director",
+  fields: {
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    age: { type: GraphQLInt },
+    movies: {
+      type: new GraphQLList(movieType),
+      resolve(source, args) {
+        return _.filter(movies, { directorId: source.id });
+      }
+    }
+  }
+});
+```
+可以看出 **directorType** 与 **movieType** 略有不同，为什么会这样呢？为什么 **directorType** 中有解析函数？以前我们看到解析函数不是只出现在查询中...
+
+### directorType 的特殊性
+
+
+
+
+
+
