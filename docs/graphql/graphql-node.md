@@ -288,4 +288,13 @@ movie: {
         }
 ```
 
-这个资源路径的返回类型是movieType，将很快被定义。
+这个请求的返回类型是 movieType，将很快被定义。
+
+### 代码
+
+[GitHub repo](https://github.com/aditya-sridhar/graphql-with-nodejs) 提供了这个项目的完整代码。
+
+### 应用程序测试
+
+现在让我们测试不同场景的应用程序，使用 `node server.js` 运行这个程序。
+
