@@ -398,7 +398,179 @@ directorType = new GraphQLObjectType({
 
 ### directorType 的特殊性
 
+当 **director** 请求被调用时，我们必须返回导演的详细信息，以及导演指导的所有电影。directorType 中的前3个字段 id，name，age是直接从导演列表中获取的。而第4个字段 movies 需要包含这位导演的电影列表。
 
+为此，我们提到的 movies 字段的类型是 GraphQLList 中的 movieType。
+
+但是我们究竟如何找到这位导演导演的所有电影呢？
+
+为此，我们在 movies 字段里面有一个 resolve 函数，resolve 函数的输入参数是 source 和 args，source 将具有父对象的详细信息。
+
+这时候我们给 director 的字段传值：id =1, name = "Random" ，age = 20，然后 source.id = 1，source.name ="Random",source.age = 20。
+
+因此，在这个例子中，resolve 函数找出了 directorId 与所需 Director 的 Id 匹配的所有影片。
+
+### 代码
+
+[GitHub repo](https://github.com/aditya-sridhar/graphql-with-nodejs) 提供了这个项目的完整代码。
+
+### 应用程序测试
+
+现在让我们测试不同场景的应用程序，使用 `node server.js` 运行这个程序，本地访问 localhost:5000/graphql 并尝试输入以下内容。
+
+### movie
+
+输入：
+
+```js
+{
+  movie(id: 1) {
+    name
+  }
+}
+```
+
+输出：
+
+```js
+{
+  "data": {
+    "movie": {
+      "name": "Movie 1"
+    }
+  }
+}
+```
+
+输出：
+
+```js
+{
+  "data": {
+    "director": {
+      "name": "Director 1",
+      "id": "1",
+      "age": 20
+    }
+  }
+}
+```
+
+从上面我们可以看到客户端可以准确地请求它想要什么，GraphQL将确保只返回那些想要的参数。这里仅请求 `name` 字段，并且仅由服务器发回。
+
+在 `movie(id:1)` 中，id 是输入参数，我们要求服务器发回 id 为1的电影。
+
+输入：
+
+```js
+{
+  movie(id: 3) {
+    name
+    id
+    year
+  }
+}
+```
+输出：
+
+```js
+{
+  "data": {
+    "movie": {
+      "name": "Movie 3",
+      "id": "3",
+      "year": 2016
+    }
+  }
+}
+```
+
+上面的例子中，请求的字段是：name，id 和 year，所以服务器发回所有这些字段。
+
+### director
+
+输入：
+
+```js
+{
+  director(id: 1) {
+    name
+    id,
+    age
+  }
+}
+```
+
+输出：
+
+```js
+{
+  "data": {
+    "director": {
+      "name": "Director 1",
+      "id": "1",
+      "age": 20
+    }
+  }
+}
+```
+
+输入：
+
+```js
+{
+  director(id: 1) {
+    name
+    id,
+    age,
+    movies{
+      name,
+      year
+    }
+  }
+}
+```
+
+输出：
+
+```js
+{
+  "data": {
+    "director": {
+      "name": "Director 1",
+      "id": "1",
+      "age": 20,
+      "movies": [
+        {
+          "name": "Movie 1",
+          "year": 2018
+        },
+        {
+          "name": "Movie 2",
+          "year": 2017
+        }
+      ]
+    }
+  }
+}
+```
+
+通过上面的例子，我们看到了GraphQL的强大功能。我们表示我们想要一id为1的导演，另外，我们表示我们想要这位 id 为1的导演的所有电影。 director 和 movie 字段都是可定制的，客户可以准确地定制他们想要的。
+
+同样，这可以扩展到其他字段和类型。例如，我们可以运行一个查询查找ID为1的导演。并根据这位导演找到他所有的电影，再为每部电影找到相对应的演员，并且找出每个获得评级前5名的演员的电影，依此类推。对于此查询，我们需要指定类型之间的关系。一旦我们这样做，客户端就可以查询它想要的任何关系。
+
+### 恭喜 😃
+你现在已经了解了GraphQL的基本概念。
+
+你可以查看[文档](https://graphql.github.io/learn/)来了解有关 GraphQL 的更多信息
+
+### 关于作者
+
+LinkedIn：[https://www.linkedin.com/in/aditya1811/](https://www.linkedin.com/in/aditya1811/)
+
+twitter：[https://twitter.com/adityasridhar18](https://twitter.com/adityasridhar18)
+
+个人网站：[https://adityasridhar.com/](https://adityasridhar.com/)
 
 
 
