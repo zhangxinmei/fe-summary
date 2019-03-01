@@ -222,7 +222,7 @@ node server.js
 
 ### 添加数据
 
-通常，一个应用程序将从数据库中读取数据，但是对于本教程，我们将简单地对代码本身中的数据进行硬编码。
+通常，一个应用程序将从数据库中读取数据，但是在本教程中，我们将简单地对代码本身中的数据进行硬编码。
 
 创建一个名为 data.js 的文件，并添加以下代码：
 
@@ -331,7 +331,7 @@ exports.queryType = queryType;
 
 ### 添加自定义类型 movieType
 
-创建一个名为 types.js 的文件，添加以下代码：
+创建一个名为 types.js 的文件，并添加以下代码：
 
 ```js
 const {
@@ -357,10 +357,9 @@ exports.movieType = movieType;
 
 可以看出 **movieType** 是以 **GraphQLObjectType** 创建的，它有 4 个字段：id，name，year 和 directorId，在添加这些字段时，也会指定每个字段的类型。这些字段直接从数据中来的，在我们的这个例子中，它将来自电影列表。
 
-### 为 director 请求添加查询和类型
+### 为 director 资源路径添加查询和类型
 
-像电影一样，甚至还可以添加导演请求。
-在 query.js 中，可以按如下方式添加 director 请求：
+和 movie 一样，我们甚至还可以添加 director 资源路径。在 query.js 中，可以按如下方式添加 director 资源路径：
 
 ```js
 director: {
@@ -374,7 +373,7 @@ director: {
         }
 ```
 
-可以在 types.js 中添加 directorType 的代码：
+可以在 types.js 中添加 directorType 代码：
 
 ```js
 //Define Director Type
@@ -394,21 +393,19 @@ directorType = new GraphQLObjectType({
 });
 ```
 
-可以看出 **directorType** 与 **movieType** 略有不同，为什么会这样呢？为什么 **directorType** 中有解析函数？以前我们看到解析函数不是只出现在查询中...
+等等，**directorType** 与 **movieType** 略有不同？这是为什么呢？为什么在 **directorType** 中有 resolve 函数？以前我们看到 resolve 函数只出现在查询中...
 
 ### directorType 的特殊性
 
-当 **director** 请求被调用时，我们必须返回导演的详细信息，以及导演指导的所有电影。directorType 中的前 3 个字段 id，name，age 是直接从导演列表中获取的。而第 4 个字段 movies 需要包含这位导演的电影列表。
-
-为此，我们提到的 movies 字段的类型是 GraphQLList 中的 movieType。
+当 **director** 资源路径被调用时，我们必须返回导演的详细信息，以及该导演指导的所有电影。directorType 中的前 3 个字段 id，name，age 直接从导演列表中获取数据，第 4 个字段 movies 需要包含这位导演的电影列表。为此，我们提到的 movies 字段的类型是 GraphQLList 中的 movieType。
 
 但是我们究竟如何找到这位导演导演的所有电影呢？
 
-为此，我们在 movies 字段里面有一个 resolve 函数，resolve 函数的输入参数是 source 和 args，source 将具有父对象的详细信息。
+为此，我们在 movies 字段里面定义了一个 resolve 函数，resolve 函数的输入参数是 source 和 args，source 将具有父对象的详细信息。
 
-这时候我们给 director 的字段传值：id =1, name = "Random" ，age = 20，然后 source.id = 1，source.name ="Random",source.age = 20。
+这时候我们给 director 传值：id =1, name = "Random" ，age = 20，并且 source.id = 1，source.name ="Random",source.age = 20。(Lets say the fields id =1, name = “Random” and age = 20 for a director. Then source.id =1, source.name = “Random” and source.age = 20)
 
-因此，在这个例子中，resolve 函数找出了 directorId 与所需 Director 的 Id 匹配的所有影片。
+因此，在这个例子中，resolve 函数找出了 directorId 与所需 Director 的 Id 匹配的所有影片。(So in this example, resolve function finds out all the movies where directorId matches the Id of the required Director.)
 
 ### 代码
 
@@ -456,9 +453,9 @@ directorType = new GraphQLObjectType({
 }
 ```
 
-从上面我们可以看到客户端可以准确地请求它想要什么，GraphQL 将确保只返回那些想要的参数。这里仅请求 `name` 字段，并且仅由服务器发回。
+从上面我们可以看到客户端可以准确地请求它想要的数据，GraphQL 将确保只返回那些想要的参数。这里仅请求 `name` 字段，并且仅由服务器返回。
 
-在 `movie(id:1)` 中，id 是输入参数，我们要求服务器发回 id 为 1 的电影。
+在 `movie(id:1)` 中，id 是输入参数，我们要求服务器返回 id 为 1 的电影。
 
 输入：
 
@@ -486,7 +483,7 @@ directorType = new GraphQLObjectType({
 }
 ```
 
-上面的例子中，请求的字段是：name，id 和 year，所以服务器发回所有这些字段。
+上面的例子中，请求的字段是：name，id 和 year，所以服务器返回所有这些字段。
 
 ### director
 
@@ -556,17 +553,17 @@ directorType = new GraphQLObjectType({
 }
 ```
 
-通过上面的例子，我们看到了 GraphQL 的强大功能。我们表示我们想要一 id 为 1 的导演，另外，我们表示我们想要这位 id 为 1 的导演的所有电影。 director 和 movie 字段都是可定制的，客户可以准确地定制他们想要的。
+通过上面的例子，我们看到了 GraphQL 的强大功能。我们想要查找一个 id 为 1 的导演，另外，我们想要找出这位 id 为 1 的导演的所有电影。 director 和 movie 字段都是可定制的，客户可以准确地定制他们想要的。
 
-同样，这可以扩展到其他字段和类型。例如，我们可以运行一个查询查找 ID 为 1 的导演。并根据这位导演找到他所有的电影，再为每部电影找到相对应的演员，并且找出每个获得评级前 5 名的演员的电影，依此类推。对于此查询，我们需要指定类型之间的关系。一旦我们这样做，客户端就可以查询它想要的任何关系。
+同样，我们还可以扩展到其他字段和类型。例如，我们可以运行一个查询查找 id 为 1 的导演，并根据这位导演找到他所有的电影，再为每部电影找到相对应的演员，并且找出每个获得评级前 5 名的演员的电影，依此类推。对于此查询，我们需要指定类型之间的关系，一旦我们这样做，客户端就可以查询它想要的任何关系。
 
 ### 恭喜 😃
 
-你现在已经了解了 GraphQL 的基本概念。
+你现在已经了解了 **GraphQL** 的基本概念。
 
 你可以查看[文档](https://graphql.github.io/learn/)来了解有关 GraphQL 的更多信息
 
-### 关于作者
+### 关于原作者
 
 LinkedIn：[https://www.linkedin.com/in/aditya1811/](https://www.linkedin.com/in/aditya1811/)
 
