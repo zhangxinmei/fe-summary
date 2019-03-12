@@ -1,4 +1,4 @@
-# GraphQL 简介：它是如何工作以及如何使用它
+# GraphQL 简介：原理及其使用
 
 ![Photo by Matt Duncan on Unsplash](./images/graphql-01.jpeg)
 
@@ -118,7 +118,7 @@ graphiql 是一个 Web UI，您可以使用它来测试 GraphQL 资源路径。�
 
 ### schema
 
-GraphQL 只有一个外部资源路径 /graphql，这个资源路径可以有多个其他资源路径执行各种操作，这些资源路径将在 schema 中被指定。
+GraphQL 有一个外部资源路径 /graphql，这个资源路径可以有多个其他资源路径执行各种操作，这些资源路径可以在 schema 中被指定。
 
 schema 将执行以下操作：
 
@@ -134,7 +134,7 @@ schema 在代码中定义如下：
 const schema = new GraphQLSchema({ query: queryType });
 ```
 
-schema 可以包含**查询**和**变更**类型，但是这篇文章将仅关注查询类型。
+schema 可以包含 **Query** 和 **Mutation** 类型，但是这篇文章将仅关注 Query 类型。
 
 ### 查询（query）
 
@@ -188,7 +188,7 @@ node server.js
 
 此 URL 在 Graphiql Web UI 中运行，如下图所示：
 
-![Graphiql Web UI](./images/0_UyShe_m8kJHEOwtQ.jpg)
+![Graphiql Web UI](./images/graphql-02.jpg)
 
 左边输入相应查询，右边为相应的输出，输入以下查询：
 
@@ -403,9 +403,9 @@ directorType = new GraphQLObjectType({
 
 为此，我们在 movies 字段里面定义了一个 resolve 函数，resolve 函数的输入参数是 source 和 args，source 将具有父对象的详细信息。
 
-这时候我们给 director 传值：id =1, name = "Random" ，age = 20，并且 source.id = 1，source.name ="Random",source.age = 20。(Lets say the fields id =1, name = “Random” and age = 20 for a director. Then source.id =1, source.name = “Random” and source.age = 20)
+这时候我们让 director 的 id =1, name = "Random" ，age = 20，并且 source.id = 1，source.name ="Random",source.age = 20。
 
-因此，在这个例子中，resolve 函数找出了 directorId 与所需 Director 的 Id 匹配的所有影片。(So in this example, resolve function finds out all the movies where directorId matches the Id of the required Director.)
+因此，在这个例子中，resolve 函数找出了 directorId 与所需 Director 的 Id 匹配的所有影片。
 
 ### 代码
 
@@ -553,15 +553,13 @@ directorType = new GraphQLObjectType({
 }
 ```
 
-通过上面的例子，我们看到了 GraphQL 的强大功能。我们想要查找一个 id 为 1 的导演，另外，我们想要找出这位 id 为 1 的导演的所有电影。 director 和 movie 字段都是可定制的，客户可以准确地定制他们想要的。
+通过上面的例子，我们看到了 GraphQL 的强大功能。我们想要查找一个 id 为 1 的导演，另外，我们想要找出这位 id 为 1 的导演的所有电影。 director 和 movie 字段都是可定制的，客户可以准确地定制他们想要的字段。
 
-同样，我们还可以扩展到其他字段和类型。例如，我们可以运行一个查询查找 id 为 1 的导演，并根据这位导演找到他所有的电影，再为每部电影找到相对应的演员，并且找出每个获得评级前 5 名的演员的电影，依此类推。对于此查询，我们需要指定类型之间的关系，一旦我们这样做，客户端就可以查询它想要的任何关系。
+同样，我们还可以扩展到其他字段和类型。例如，我们可以运行一个查询查找 id 为 1 的导演，并根据这位导演找到他所有的电影，再为每部电影找到相对应的演员，并且找出每个获得评级前 5 名的演员所参演的电影，依此类推。对于此查询，我们需要指定类型之间的关系，一旦我们这样做，客户端就可以查询它想要的任何关系。
 
 ### 恭喜 😃
 
-你现在已经了解了 **GraphQL** 的基本概念。
-
-你可以查看[文档](https://graphql.github.io/learn/)来了解有关 GraphQL 的更多信息
+你现在已经了解了 **GraphQL** 的基本概念。你可以通过查看[官方文档](https://graphql.github.io/learn/)来了解有关 GraphQL 的更多信息。
 
 ### 关于原作者
 
@@ -570,3 +568,5 @@ LinkedIn：[https://www.linkedin.com/in/aditya1811/](https://www.linkedin.com/in
 twitter：[https://twitter.com/adityasridhar18](https://twitter.com/adityasridhar18)
 
 个人网站：[https://adityasridhar.com/](https://adityasridhar.com/)
+
+原文地址：[https://medium.freecodecamp.org/an-introduction-to-graphql-how-it-works-and-how-to-use-it-91162ecd72d0](https://medium.freecodecamp.org/an-introduction-to-graphql-how-it-works-and-how-to-use-it-91162ecd72d0)
