@@ -32,7 +32,7 @@ module.exports = {
       {
         title: "JS",
         collapsable: false,
-        children: ["/js/javascriptType", "/js/clone"]
+        children: ["/js/javascriptType", "/js/clone", "/js/object"]
       },
       {
         title: "CSS",
