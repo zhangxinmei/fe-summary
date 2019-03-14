@@ -87,3 +87,11 @@ t1.sayName === t2.sayName; // true
 只要创建了一个新函数，就会为该函数创建一个 prototype 属性，这个属性指向函数的原型对象
 
 ![image](./images/1.png)
+
+hasOwnProperty()方法可以用来检测一个属性是存在实例中还是存在于原型中：
+
+```js
+t1.hasOwnProperty("name"); // false
+t1.name = "amx";
+t1.hasOwnProperty("name"); // true
+```
