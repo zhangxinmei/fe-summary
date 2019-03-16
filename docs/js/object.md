@@ -95,3 +95,78 @@ t1.hasOwnProperty("name"); // false
 t1.name = "amx";
 t1.hasOwnProperty("name"); // true
 ```
+
+优点：可以让所有对象实例共享它所包含的属性和方法
+
+#### 组合使用构造函数和原型模式
+
+构造函数模式用于定义实例属性，原型模式用于定义方法和共性的属性。
+
+```js
+function Test(name, age) {
+  this.name = name;
+  this.age = age;
+  this.colors = ["red", "blue"];
+}
+Test.prototype = {
+  constructor: Test,
+  sayName: function() {
+    console.log(this.name);
+  }
+};
+var t1 = new Test("may", 12);
+var t2 = new Test("may", 12);
+t1.colors.push("green");
+t1.colors; // ["red", "blue", "green"]
+t2.colors; // ["red", "blue"]
+t1.colors === t2.colors; //false
+t1.sayName === t2.sayName; //true
+```
+
+#### 动态原型模式
+
+```js
+function Test(name, age) {
+  this.name = name;
+  this.age = age;
+  if (typeof this.sayName != "function") {
+    Test.prototype.sayName = function() {
+      console.log(this.name);
+    };
+  }
+}
+var t1 = new Test("may", 12);
+t1.sayName(); // may
+```
+
+#### 寄生构造函数模式
+
+创建一个函数，该函数的作用仅仅是封装创建对象的代码，然后返回新创建的对象。
+
+```js
+function Test(name, age) {
+  var o = new Object();
+  o.name = name;
+  o.age = age;
+  o.sayName = function() {
+    console.log(this.name);
+  };
+  return o;
+}
+var t1 = new Test("may", 13);
+t1.sayName(); // may
+```
+
+#### 稳妥构造函数模式
+
+```js
+function Test(name, age) {
+  var o = new Object();
+  o.sayName = function() {
+    console.log(name);
+  };
+  return o;
+}
+var t1 = Test("may", 13);
+t1.sayName(); // may
+```
