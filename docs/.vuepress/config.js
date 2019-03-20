@@ -4,15 +4,33 @@ module.exports = {
   description: "",
   ga: "",
   head: [
-    ["link", { rel: "icon", href: `/logo.png` }],
-    ["link", { rel: "manifest", href: "/manifest.json" }],
-    ["meta", { name: "theme-color", content: "#3eaf7c" }],
-    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    ["link", {
+      rel: "icon",
+      href: `/logo.png`
+    }],
+    ["link", {
+      rel: "manifest",
+      href: "/manifest.json"
+    }],
+    ["meta", {
+      name: "theme-color",
+      content: "#3eaf7c"
+    }],
+    ["meta", {
+      name: "apple-mobile-web-app-capable",
+      content: "yes"
+    }],
     [
       "meta",
-      { name: "apple-mobile-web-app-status-bar-style", content: "black" }
+      {
+        name: "apple-mobile-web-app-status-bar-style",
+        content: "black"
+      }
     ],
-    ["meta", { name: "msapplication-TileColor", content: "#000000" }]
+    ["meta", {
+      name: "msapplication-TileColor",
+      content: "#000000"
+    }]
   ],
   themeConfig: {
     repo: "zhangxinmei/fe-summary",
@@ -23,8 +41,7 @@ module.exports = {
     sidebarDepth: 2,
     lastUpdated: "上次更新",
     // nav: [{ text: "blog", link: "https://github.com/zhangxinmei" }],
-    sidebar: [
-      {
+    sidebar: [{
         title: "简介",
         collapsable: false,
         children: ["/"]
@@ -32,7 +49,7 @@ module.exports = {
       {
         title: "JS",
         collapsable: false,
-        children: ["/js/javascriptType", "/js/clone", "/js/object"]
+        children: ["/js/javascriptType", "/js/clone", "/js/object", '/js/inherit']
       },
       {
         title: "CSS",
