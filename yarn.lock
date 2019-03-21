@@ -6310,18 +6310,9 @@ webpack-chain@^4.6.0:
     deepmerge "^1.5.2"
     javascript-stringify "^1.6.0"
 
-webpack-dev-middleware@3.6.0:
+webpack-dev-middleware@3.6.0, webpack-dev-middleware@^3.0.0:
   version "3.6.0"
   resolved "http://registry.npm.taobao.org/webpack-dev-middleware/download/webpack-dev-middleware-3.6.0.tgz#71f1b04e52ff8d442757af2be3a658237d53a3e5"
-  dependencies:
-    memory-fs "^0.4.1"
-    mime "^2.3.1"
-    range-parser "^1.0.3"
-    webpack-log "^2.0.0"
-
-webpack-dev-middleware@^3.0.0:
-  version "3.6.1"
-  resolved "http://registry.npm.taobao.org/webpack-dev-middleware/download/webpack-dev-middleware-3.6.1.tgz#91f2531218a633a99189f7de36045a331a4b9cd4"
   dependencies:
     memory-fs "^0.4.1"
     mime "^2.3.1"
