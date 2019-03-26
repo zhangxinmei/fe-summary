@@ -56,8 +56,7 @@ module.exports = {
     sidebarDepth: 2,
     lastUpdated: "上次更新",
     // nav: [{ text: "blog", link: "https://github.com/zhangxinmei" }],
-    sidebar: [
-      {
+    sidebar: [{
         title: "简介",
         collapsable: false,
         children: ["/"]
@@ -88,6 +87,11 @@ module.exports = {
         title: "GraphQl",
         collapsable: false,
         children: ["/graphql/graphql", "/graphql/graphql-node"]
+      },
+      {
+        title: "V8",
+        collapsable: false,
+        children: ["/V8/V8"]
       }
     ]
   }
