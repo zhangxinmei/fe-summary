@@ -86,7 +86,7 @@ module.exports = {
       {
         title: "GraphQl",
         collapsable: false,
-        children: ["/graphql/graphql", "/graphql/graphql-node"]
+        children: ["/graphql/graphql-node", "/graphql/graphql", "/graphql/graphql-shemal-design"]
       },
       {
         title: "V8",
