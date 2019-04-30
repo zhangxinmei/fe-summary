@@ -70,7 +70,8 @@ module.exports = {
           "/js/object",
           "/js/inherit",
           "/js/function",
-          "/js/closure"
+          "/js/closure",
+          "/js/shadowdom"
         ]
       },
       {
