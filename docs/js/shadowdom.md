@@ -1,46 +1,46 @@
-# JavaScript的工作原理：Shadow DOM 的内部结构以及如何构建可封装的组件
+# JavaScript 的工作原理：Shadow DOM 的内部结构以及如何构建可封装的组件
 
 ![image](./images/shadowdom01.png)
 
-这是专门探索JavaScript及其构建组件的系列文章的第17篇。在识别和描述核心元素的过程中，我们还分享了构建 [SessionStack](https://www.sessionstack.com/?utm_source=medium&utm_medium=blog&utm_content=js-series-parsing-intro) 时使用的一些经验法则，这是一个 JavaScript 应用程序，需要强大且较高性能，以帮助用户实时查看和重现他们的Web应用程序的缺陷。
+这是专门探索 JavaScript 及其构建组件的系列文章的第 17 篇。在识别和描述核心元素的过程中，我们还分享了构建 [SessionStack](https://www.sessionstack.com/?utm_source=medium&utm_medium=blog&utm_content=js-series-parsing-intro) 时使用的一些经验法则，这是一个 JavaScript 应用程序，需要强大且较高性能，以帮助用户实时查看和重现他们的 Web 应用程序的缺陷。
 
 如果您错过了前面的章节，可以在这里找到它们：
 
-* [An overview of the engine, the runtime, and the call stack](https://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf)
-* [Inside Google’s V8 engine + 5 tips on how to write optimized code](https://blog.sessionstack.com/how-javascript-works-inside-the-v8-engine-5-tips-on-how-to-write-optimized-code-ac089e62b12e)
-* [Memory management + how to handle 4 common memory leaks](https://blog.sessionstack.com/how-javascript-works-memory-management-how-to-handle-4-common-memory-leaks-3f28b94cfbec)
-* [The event loop and the rise of Async programming + 5 ways to better coding with async/await](https://blog.sessionstack.com/how-javascript-works-event-loop-and-the-rise-of-async-programming-5-ways-to-better-coding-with-2f077c4438b5)
-* [Deep dive into WebSockets and HTTP/2 with SSE + how to pick the right path](https://blog.sessionstack.com/how-javascript-works-deep-dive-into-websockets-and-http-2-with-sse-how-to-pick-the-right-path-584e6b8e3bf7)
-* [A comparison with WebAssembly + why in certain cases it’s better to use it over JavaScript](https://blog.sessionstack.com/how-javascript-works-a-comparison-with-webassembly-why-in-certain-cases-its-better-to-use-it-d80945172d79)
-* [The building blocks of Web Workers + 5 cases when you should use them](https://blog.sessionstack.com/how-javascript-works-the-building-blocks-of-web-workers-5-cases-when-you-should-use-them-a547c0757f6a)
-* [Service Workers, their life-cycle, and use cases](https://blog.sessionstack.com/how-javascript-works-service-workers-their-life-cycle-and-use-cases-52b19ad98b58)
-* [The mechanics of Web Push Notifications](https://blog.sessionstack.com/how-javascript-works-the-mechanics-of-web-push-notifications-290176c5c55d)
-* [Tracking changes in the DOM using MutationObserver](https://blog.sessionstack.com/how-javascript-works-tracking-changes-in-the-dom-using-mutationobserver-86adc7446401)
-* [The rendering engine and tips to optimize its performance](https://blog.sessionstack.com/how-javascript-works-the-rendering-engine-and-tips-to-optimize-its-performance-7b95553baeda)
-* [Inside the Networking Layer + How to Optimize Its Performance and Security](https://blog.sessionstack.com/how-javascript-works-inside-the-networking-layer-how-to-optimize-its-performance-and-security-f71b7414d34c)
-* [Under the hood of CSS and JS animations + how to optimize their performance](https://blog.sessionstack.com/how-javascript-works-under-the-hood-of-css-and-js-animations-how-to-optimize-their-performance-db0e79586216)
-* [Parsing, Abstract Syntax Trees (ASTs) + 5 tips on how to minimize parse time](https://blog.sessionstack.com/how-javascript-works-parsing-abstract-syntax-trees-asts-5-tips-on-how-to-minimize-parse-time-abfcf7e8a0c8)
-* [The internals of classes and inheritance + transpiling in Babel and TypeScript](https://blog.sessionstack.com/how-javascript-works-the-internals-of-classes-and-inheritance-transpiling-in-babel-and-113612cdc220)
-* [Storage engines + how to choose the proper storage API](https://blog.sessionstack.com/how-javascript-works-storage-engines-how-to-choose-the-proper-storage-api-da50879ef576)
-  
+- [An overview of the engine, the runtime, and the call stack](https://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf)
+- [Inside Google’s V8 engine + 5 tips on how to write optimized code](https://blog.sessionstack.com/how-javascript-works-inside-the-v8-engine-5-tips-on-how-to-write-optimized-code-ac089e62b12e)
+- [Memory management + how to handle 4 common memory leaks](https://blog.sessionstack.com/how-javascript-works-memory-management-how-to-handle-4-common-memory-leaks-3f28b94cfbec)
+- [The event loop and the rise of Async programming + 5 ways to better coding with async/await](https://blog.sessionstack.com/how-javascript-works-event-loop-and-the-rise-of-async-programming-5-ways-to-better-coding-with-2f077c4438b5)
+- [Deep dive into WebSockets and HTTP/2 with SSE + how to pick the right path](https://blog.sessionstack.com/how-javascript-works-deep-dive-into-websockets-and-http-2-with-sse-how-to-pick-the-right-path-584e6b8e3bf7)
+- [A comparison with WebAssembly + why in certain cases it’s better to use it over JavaScript](https://blog.sessionstack.com/how-javascript-works-a-comparison-with-webassembly-why-in-certain-cases-its-better-to-use-it-d80945172d79)
+- [The building blocks of Web Workers + 5 cases when you should use them](https://blog.sessionstack.com/how-javascript-works-the-building-blocks-of-web-workers-5-cases-when-you-should-use-them-a547c0757f6a)
+- [Service Workers, their life-cycle, and use cases](https://blog.sessionstack.com/how-javascript-works-service-workers-their-life-cycle-and-use-cases-52b19ad98b58)
+- [The mechanics of Web Push Notifications](https://blog.sessionstack.com/how-javascript-works-the-mechanics-of-web-push-notifications-290176c5c55d)
+- [Tracking changes in the DOM using MutationObserver](https://blog.sessionstack.com/how-javascript-works-tracking-changes-in-the-dom-using-mutationobserver-86adc7446401)
+- [The rendering engine and tips to optimize its performance](https://blog.sessionstack.com/how-javascript-works-the-rendering-engine-and-tips-to-optimize-its-performance-7b95553baeda)
+- [Inside the Networking Layer + How to Optimize Its Performance and Security](https://blog.sessionstack.com/how-javascript-works-inside-the-networking-layer-how-to-optimize-its-performance-and-security-f71b7414d34c)
+- [Under the hood of CSS and JS animations + how to optimize their performance](https://blog.sessionstack.com/how-javascript-works-under-the-hood-of-css-and-js-animations-how-to-optimize-their-performance-db0e79586216)
+- [Parsing, Abstract Syntax Trees (ASTs) + 5 tips on how to minimize parse time](https://blog.sessionstack.com/how-javascript-works-parsing-abstract-syntax-trees-asts-5-tips-on-how-to-minimize-parse-time-abfcf7e8a0c8)
+- [The internals of classes and inheritance + transpiling in Babel and TypeScript](https://blog.sessionstack.com/how-javascript-works-the-internals-of-classes-and-inheritance-transpiling-in-babel-and-113612cdc220)
+- [Storage engines + how to choose the proper storage API](https://blog.sessionstack.com/how-javascript-works-storage-engines-how-to-choose-the-proper-storage-api-da50879ef576)
+
 ### 概述
 
 Web Components 是一套不同的技术，允许创你建可重用的自定义元素。它们的功能隔离其他代码，你可以在 Web 应用程序中使用它们。
 
-Web组件有4个标准：
+Web 组件有 4 个标准：
 
-* Shadow DOM
-* HTML Templates
-* Custom elements
-* HTML Imports
+- Shadow DOM
+- HTML Templates
+- Custom elements
+- HTML Imports
 
 在本文中，我们将重点关注 **Shadow DOM**。
 
 Shadow DOM 是被设计为用于构建基于组件的应用程序的工具，它为你能遇到的 Web 开发中的常见问题提供了解决方案：
 
-* Isolated DOM：组件的DOM是自包含的（例如，document.querySelector()，不会返回组件的 shadow DOM 中的节点）。这也简化了 Web 应用程序中的 CSS 选择器，因为 DOM 组件是隔离的，它使你能够使用更通用的 id 或者 class 而无需担心命名冲突。
-* Scoped CSS：在 shadow DOM 中定义的 CSS 是具有作用域的，样式规则不会泄漏，页面样式不会干扰它。
-* Composition：为您的组件设计一个基于标记的声明式 API。
+- Isolated DOM：组件的 DOM 是自包含的（例如，document.querySelector()，不会返回组件的 shadow DOM 中的节点）。这也简化了 Web 应用程序中的 CSS 选择器，因为 DOM 组件是隔离的，它使你能够使用更通用的 id 或者 class 而无需担心命名冲突。
+- Scoped CSS：在 shadow DOM 中定义的 CSS 是具有作用域的，样式规则不会泄漏，页面样式不会干扰它。
+- Composition：为您的组件设计一个基于标记的声明式 API。
 
 ### Shadow DOM
 
@@ -48,21 +48,21 @@ Shadow DOM 是被设计为用于构建基于组件的应用程序的工具，它
 
 除了以下两个不同之处外，Shadow DOM 只是一个普通的 DOM：
 
-* 与您创建和使用 DOM 的方式相比，如何创建以及使用它与页面的其余部分相关 //TODO
-* 它与页面其余部分的关系是如何表现的
+- 与您创建和使用 DOM 的方式相比，如何创建以及使用它与页面的其余部分相关 //TODO
+- 它与页面其余部分的关系是如何表现的
 
-通常，您创建 DOM 节点并将它们作为子节点添加到另一个元素上。在 shadow DOM 的情况下，你创建一个添加到元素范围的DOM树，但它与实际的子元素分开。这个作用域的子树称为 **shadow tree**，它添加的元素是它的 **shadow host**。你添加到 shadow tree 的任何内容都将成为托管元素的本地元素，包括 `<style>` 标签，这就是shadow DOM 实现 CSS scope 样式的方式。
+通常，您创建 DOM 节点并将它们作为子节点添加到另一个元素上。在 shadow DOM 的情况下，你创建一个添加到元素范围的 DOM 树，但它与实际的子元素分开。这个作用域的子树称为 **shadow tree**，它添加的元素是它的 **shadow host**。你添加到 shadow tree 的任何内容都将成为托管元素的本地元素，包括 `<style>` 标签，这就是 shadow DOM 实现 CSS scope 样式的方式。
 
 ### 创建 Shadow DOM
 
 **shadow root** 是一个添加到 "host" 元素的文档片段。添加 shadow root 的那一刻并是元素获得 shadow DOM 的时刻，要为元素创建 shadow DOM，请调用 `element.attachShadow()`：
 
 ```js
-var header = document.createElement('header');
-var shadowRoot = header.attachShadow({mode: 'open'});
-var paragraphElement = document.createElement('p');
+var header = document.createElement("header");
+var shadowRoot = header.attachShadow({ mode: "open" });
+var paragraphElement = document.createElement("p");
 
-paragraphElement.innerText = 'Shadow DOM';
+paragraphElement.innerText = "Shadow DOM";
 shadowRoot.appendChild(paragraphElement);
 ```
 
@@ -72,7 +72,7 @@ shadowRoot.appendChild(paragraphElement);
 
 组合是 Shadow DOM 中最重要的特征之一。
 
-编写HTML时，组合是构建Web应用程序的方式。您可以组合并嵌套不同的元素，例如`<div>`，`<header>`，`<form>` 等，以构建 Web 应用程序所需的 UI。其中一些标签甚至可以互相协作。
+编写 HTML 时，组合是构建 Web 应用程序的方式。您可以组合并嵌套不同的元素，例如`<div>`，`<header>`，`<form>` 等，以构建 Web 应用程序所需的 UI。其中一些标签甚至可以互相协作。
 
 组合定义了为什么元素（如 `<select>`，`<form>`，`<video>`等）是灵活的，并接受特定的 HTML 元素作为子元素，以便对它们做一些特殊的事情。
 
@@ -82,7 +82,7 @@ Shadow DOM 引入了以下可用于实现合成的功能。
 
 ### Light DOM
 
-这是组件用户写入的标记，这个 DOM 位于组件的 shadow DOM 之外，这是元素的实际的子元素。想象一下，你已经创建了一个名为     `<better-button>` 的自定义组件，它扩展了原生 HTML 按钮，你想要在其中添加图像和一些文本。代码如下：
+这是组件用户写入的标记，这个 DOM 位于组件的 shadow DOM 之外，这是元素的实际的子元素。想象一下，你已经创建了一个名为 `<better-button>` 的自定义组件，它扩展了原生 HTML 按钮，你想要在其中添加图像和一些文本。代码如下：
 
 ```js
 <extended-button>
@@ -97,9 +97,9 @@ Shadow DOM 引入了以下可用于实现合成的功能。
 
 这里的 Shadow DOM 是你已经创建的组件（"extended-button"）。 Shadow DOM 是组件的基础，它定义了它的内部结构，作用域 CSS，并封装了你的实现细节。
 
-### 扁平的DOM树
+### 扁平的 DOM 树
 
-浏览器将 Light DOM（由用户创建的DOM）分配到你的 shadow DOM 中，并定义了自定义组件的结果来呈现最终产品。扁平树是你最终在DevTools 中看到的以及页面上呈现的内容。
+浏览器将 Light DOM（由用户创建的 DOM）分配到你的 shadow DOM 中，并定义了自定义组件的结果来呈现最终产品。扁平树是你最终在 DevTools 中看到的以及页面上呈现的内容。
 
 ```js
 <extended-button>
@@ -123,20 +123,17 @@ Shadow DOM 引入了以下可用于实现合成的功能。
 让我们看一个简单的例子：
 
 ```js
-
 <template id="my-paragraph">
   <p> Paragraph content. </p>
 </template>
-
 ```
 
 在你使用 JavaScript 引用它之前，它不会出现在你的页面中，然后使用以下内容将其添加到 DOM：
 
 ```js
-var template = document.getElementById('my-paragraph');
+var template = document.getElementById("my-paragraph");
 var templateContent = template.content;
 document.body.appendChild(templateContent);
-
 ```
 
 到目前为止，已经有其他技术可以实现类似的行为，但是，如前所述，将其本身包含在内是非常好的。并且 template 也有相当不错的浏览器支持：
@@ -148,16 +145,20 @@ template 本身很有用，但它们使用自定义元素可以更好地工作�
 让我们定义一个 Web 组件，它使用我们的模板作为其 shadow DOM 的内容，我们称之为 `<my-paragraph>`：
 
 ```js
-customElements.define('my-paragraph',
- class extends HTMLElement {
-   constructor() {
-     super();
+customElements.define(
+  "my-paragraph",
+  class extends HTMLElement {
+    constructor() {
+      super();
 
-     let template = document.getElementById('my-paragraph');
-     let templateContent = template.content;
-     const shadowRoot = this.attachShadow({mode: 'open'}).appendChild(templateContent.cloneNode(true));
+      let template = document.getElementById("my-paragraph");
+      let templateContent = template.content;
+      const shadowRoot = this.attachShadow({ mode: "open" }).appendChild(
+        templateContent.cloneNode(true)
+      );
+    }
   }
-});
+);
 ```
 
 这里要注意的关键点是我们将模板内容的克隆添加到 shadow root，它是使用 `Node.cloneNode()` 方法创建的。
@@ -183,8 +184,7 @@ customElements.define('my-paragraph',
 现在，我们可以像这样使用模板定义的自定义组件：
 
 ```js
-<my-paragraph></my-paragraph>
-
+<my-paragraph />
 ```
 
 ### Slots（插槽）
@@ -197,8 +197,8 @@ Template 有一些缺点：主要是静态内容，它不允许渲染我们的�
 
 ```js
 <template id="my-paragraph">
-  <p> 
-    <slot name="my-text">Default text</slot> 
+  <p>
+    <slot name="my-text">Default text</slot>
   </p>
 </template>
 ```
@@ -211,7 +211,7 @@ Template 有一些缺点：主要是静态内容，它不允许渲染我们的�
 
 ```js
 <my-paragraph>
- <span slot="my-text">Let's have some different text!</span>
+  <span slot="my-text">Let's have some different text!</span>
 </my-paragraph>
 ```
 
@@ -242,10 +242,10 @@ Template 有一些缺点：主要是静态内容，它不允许渲染我们的�
 
 Scoped CSS 是 Shadow DOM 的最大特色之一：
 
-* 外部页面中的 CSS 选择器不适用于组件内部。
-* 组件内定义的样式不会影响页面的其余部分，它们的范围是主机（host）元素。
+- 外部页面中的 CSS 选择器不适用于组件内部。
+- 组件内定义的样式不会影响页面的其余部分，它们的范围是主机（host）元素。
 
-Shadow DOM 中使用的 CSS选择器应用于组件。实际上，这意味着我们可以再次使用常见的 id 或者 class 名称，而不必担心页面上其他地方的冲突，简单的 CSS 选择器意味着更好的性能。
+Shadow DOM 中使用的 CSS 选择器应用于组件。实际上，这意味着我们可以再次使用常见的 id 或者 class 名称，而不必担心页面上其他地方的冲突，简单的 CSS 选择器意味着更好的性能。
 
 让我们看一下定义了一些样式的 `＃shadow-root`：
 
@@ -287,17 +287,17 @@ Shadow DOM 中使用的 CSS选择器应用于组件。实际上，这意味着�
   :host {
     opacity: 0.4;
   }
-  
+
   :host(:hover) {
     opacity: 1;
   }
-  
+
   :host([disabled]) { /* style when host has disabled attribute. */
     background: grey;
     pointer-events: none;
     opacity: 0.4;
   }
-  
+
   :host(.pink) > #tabs {
     color: pink; /* color internal #tabs node when host has class="pink". */
   }
@@ -312,9 +312,7 @@ Shadow DOM 中使用的 CSS选择器应用于组件。实际上，这意味着�
 
 ```js
 <body class="lightheme">
-  <custom-container>
-  …
-  </custom-container>
+  <custom-container>…</custom-container>
 </body>
 ```
 
@@ -339,7 +337,7 @@ custom-container {
 }
 ```
 
-#### 外部样式的优先级高于Shadow DOM中定义的样式。
+#### 外部样式的优先级高于 Shadow DOM 中定义的样式。
 
 例如，如果用户编写选择器：
 
@@ -378,11 +376,11 @@ custom-container {
 <custom-container background>…</custom-container>
 ```
 
-在Shadow DOM中：
+在 Shadow DOM 中：
 
 ```css
 :host([background]) {
-  background: var( - custom-container-bg, #CECECE);
+  background: var( - custom-container-bg, #cecece);
   border-radius: 10px;
   padding: 10px;
 }
@@ -397,3 +395,12 @@ Shadow DOM API 提供了使用插槽的实用程序。
 ### slotchange 事件
 
 当插槽的分布式节点发生更改时，会切换 slotchange 事件。例如，如果用户从 Light DOM 添加或删除子项。
+
+```js
+var slot = this.shadowRoot.querySelector("#some_slot");
+slot.addEventListener("slotchange", function(e) {
+  console.log("Light DOM change");
+});
+```
+
+要监视 light DOM 的其他类型的更改，可以在元素的构造函数中使用 `MutationObserver`。我们之前已经讨论过 [MutationObserver 的内部以及如何使用它](https://blog.sessionstack.com/how-javascript-works-tracking-changes-in-the-dom-using-mutationobserver-86adc7446401)。
