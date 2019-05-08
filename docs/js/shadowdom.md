@@ -4,7 +4,7 @@
 
 这是专门探索 JavaScript 及其构建组件的系列文章的第 17 篇。在识别和描述核心元素的过程中，我们还分享了构建 [SessionStack](https://www.sessionstack.com/?utm_source=medium&utm_medium=blog&utm_content=js-series-parsing-intro) 时使用的一些经验法则，这是一个 JavaScript 应用程序，需要强大且较高性能，以帮助用户实时查看和重现他们的 Web 应用程序的缺陷。
 
-如果您错过了前面的章节，可以在这里找到它们：
+<!-- 如果您错过了前面的章节，可以在这里找到它们：
 
 - [An overview of the engine, the runtime, and the call stack](https://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf)
 - [Inside Google’s V8 engine + 5 tips on how to write optimized code](https://blog.sessionstack.com/how-javascript-works-inside-the-v8-engine-5-tips-on-how-to-write-optimized-code-ac089e62b12e)
@@ -21,13 +21,13 @@
 - [Under the hood of CSS and JS animations + how to optimize their performance](https://blog.sessionstack.com/how-javascript-works-under-the-hood-of-css-and-js-animations-how-to-optimize-their-performance-db0e79586216)
 - [Parsing, Abstract Syntax Trees (ASTs) + 5 tips on how to minimize parse time](https://blog.sessionstack.com/how-javascript-works-parsing-abstract-syntax-trees-asts-5-tips-on-how-to-minimize-parse-time-abfcf7e8a0c8)
 - [The internals of classes and inheritance + transpiling in Babel and TypeScript](https://blog.sessionstack.com/how-javascript-works-the-internals-of-classes-and-inheritance-transpiling-in-babel-and-113612cdc220)
-- [Storage engines + how to choose the proper storage API](https://blog.sessionstack.com/how-javascript-works-storage-engines-how-to-choose-the-proper-storage-api-da50879ef576)
+- [Storage engines + how to choose the proper storage API](https://blog.sessionstack.com/how-javascript-works-storage-engines-how-to-choose-the-proper-storage-api-da50879ef576) -->
 
 ### 概述
 
-Web Components 是一套不同的技术，允许创你建可重用的自定义元素。它们的功能隔离其他代码，你可以在 Web 应用程序中使用它们。
+Web Components 是一套不同的技术，允许创你建可重用的自定义元素。它们的功能是隔离其他代码，让你可以在 Web 应用程序中使用它们。
 
-Web 组件有 4 个标准：
+Web Components 有 4 个标准：
 
 - Shadow DOM
 - HTML Templates
@@ -38,9 +38,9 @@ Web 组件有 4 个标准：
 
 Shadow DOM 是被设计为用于构建基于组件的应用程序的工具，它为你能遇到的 Web 开发中的常见问题提供了解决方案：
 
-- Isolated DOM：组件的 DOM 是自包含的（例如，document.querySelector()，不会返回组件的 shadow DOM 中的节点）。这也简化了 Web 应用程序中的 CSS 选择器，因为 DOM 组件是隔离的，它使你能够使用更通用的 id 或者 class 而无需担心命名冲突。
+- 隔离 DOM：组件的 DOM 是自包含的（例如，document.querySelector()，不会返回组件的 shadow DOM 中的节点）。这也简化了 Web 应用程序中的 CSS 选择器，因为 DOM 组件是隔离的，它使你能够使用更通用的 id 或者 class 而无需担心命名冲突。
 - Scoped CSS：在 shadow DOM 中定义的 CSS 是具有作用域的，样式规则不会泄漏，页面样式不会干扰它。
-- Composition：为您的组件设计一个基于标记的声明式 API。
+- Composition：为你的组件设计一个基于标记的声明式 API。
 
 ### Shadow DOM
 
@@ -48,8 +48,8 @@ Shadow DOM 是被设计为用于构建基于组件的应用程序的工具，它
 
 除了以下两个不同之处外，Shadow DOM 只是一个普通的 DOM：
 
-- 与您创建和使用 DOM 的方式相比，如何创建以及使用它与页面的其余部分相关 //TODO
-- 它与页面其余部分的关系是如何表现的
+- 与你创建和使用 DOM 的方式相比，Shadow DOM 关注的是如何创建以及使用它与页面的其余部分的相关
+- 以及 Shadow DOM 与页面其余部分的关系是如何表现的
 
 通常，您创建 DOM 节点并将它们作为子节点添加到另一个元素上。在 shadow DOM 的情况下，你创建一个添加到元素范围的 DOM 树，但它与实际的子元素分开。这个作用域的子树称为 **shadow tree**，它添加的元素是它的 **shadow host**。你添加到 shadow tree 的任何内容都将成为托管元素的本地元素，包括 `<style>` 标签，这就是 shadow DOM 实现 CSS scope 样式的方式。
 
@@ -68,17 +68,17 @@ shadowRoot.appendChild(paragraphElement);
 
 [specification](http://w3c.github.io/webcomponents/spec/shadow/#h-methods)定义了无法托管 **shadow root** 的元素列表。
 
-### Shadow DOM 中的组成
+### Shadow DOM 中的 Composition
 
-组合是 Shadow DOM 中最重要的特征之一。
+Composition 是 Shadow DOM 中最重要的特征之一。
 
-编写 HTML 时，组合是构建 Web 应用程序的方式。您可以组合并嵌套不同的元素，例如`<div>`，`<header>`，`<form>` 等，以构建 Web 应用程序所需的 UI。其中一些标签甚至可以互相协作。
+编写 HTML 时，Composition 是构建 Web 应用程序的方式。你可以组合并嵌套不同的元素，例如`<div>`，`<header>`，`<form>` 等，以构建 Web 应用程序所需的 UI，其中一些标签甚至可以互相协作。
 
-组合定义了为什么元素（如 `<select>`，`<form>`，`<video>`等）是灵活的，并接受特定的 HTML 元素作为子元素，以便对它们做一些特殊的事情。
+Composition 定义了为什么元素（如 `<select>`，`<form>`，`<video>`等）是灵活的，并接受特定的 HTML 元素作为子元素，以便对它们做一些特殊的事情。
 
 例如，`<select>` 知道如何将 `<option>` 元素渲染到具有预定义项的下拉窗口选项中。
 
-Shadow DOM 引入了以下可用于实现合成的功能。
+Shadow DOM 引入了以下可用于实现 Composition 的功能。
 
 ### Light DOM
 
@@ -404,3 +404,94 @@ slot.addEventListener("slotchange", function(e) {
 ```
 
 要监视 light DOM 的其他类型的更改，可以在元素的构造函数中使用 `MutationObserver`。我们之前已经讨论过 [MutationObserver 的内部以及如何使用它](https://blog.sessionstack.com/how-javascript-works-tracking-changes-in-the-dom-using-mutationobserver-86adc7446401)。
+
+### assignedNodes() 方法
+
+知道哪些元素与插槽相关联可能很有用，调用 `slot.assignedNodes()` 方法，可以为你提供插槽所呈现的元素。 `{flatten: true}` 选项还将返回插槽的后备内容（如果没有分发节点）。
+
+我们来看下面的例子：
+
+```html
+<slot name='slot1'><p>Default content</p></slot>
+```
+
+我们假设这是一个名为 `<my-container>` 的组件，让我们来看看这个组件的不同用法以及调 `assignedNodes()` 的结果：
+
+在第一种情况下，将我们自己的内容添加到插槽中：
+
+```html
+<my-container>
+  <span slot="slot1"> container text </span>
+</my-container>
+```
+
+调用 `assignedNodes()` 将返回 `[<span slot ="slot1"> container text </span>]`，请注意，结果是一个节点数组。
+
+在第二种情况下，我们将内容留空：
+
+```html
+<my-container> </my-container>
+
+```
+
+调用 `assignedNodes()` 的结果将返回一个空数组[]。
+
+但是，如果你为同一元素传递 `{flatten: true}` 参数，则会得到默认内容：`[<p>Default content</p>]`。
+
+此外，要访问插槽内的元素，可以调用 `assignedNodes()` 以查看元素分配给了哪个组件的插槽。
+
+### 事件模型
+
+有趣的是要注意当 Shadow DOM 中发生事件冒泡时会发生什么。
+
+调整事件的目标以维持 Shadow DOM 提供的封装。当事件被重新定位时，它看起来像是来自组件本身，而不是作为组件一部分的 Shadow DOM 中的内部元素。
+
+以下是从 Shadow DOM 中包含的事件列表（有些事件没有）：
+
+* **焦点 事件**：blur, focus, focusin, focusout
+* **鼠标事件**：click, dblclick, mousedown, mouseenter, mousemove 等
+* **Wheel 事件**：wheel
+* **Input 事件**：beforeinput, input
+* **键盘事件**：keydown,keyup
+* **Composition 事件**：compositionstart, compositionupdate, compositionend
+* **拖拽事件**： dragstart, drag, dragend, drop 等
+
+### 自定义事件
+
+默认情况下，自定义事件不会传递到 Shadow DOM 之外。如果想要 dispatch 自定义事件并希望它传递，则需要添加 `bubbles: true` 和 `composition: true` 作为选项。
+
+让我们看看如何 dispatch 这样的事件：
+
+```js
+var container = this.shadowRoot.querySelector('#container');
+container.dispatchEvent(new Event('containerchanged', {bubbles: true, composed: true}));
+```
+
+浏览器支持情况：
+
+要检测 Shadow DOM 是否是受浏览器支持的，请检查是否存在 attachShadow：
+
+```js
+const supportsShadowDOMV1 = !!HTMLElement.prototype.attachShadow;
+```
+
+![image](./images/shadowdom02.png)
+
+通常，Shadow DOM 的行为方式与 DOM 是完全不同的。我们从 SessionStack 库的经验中得到了第一手的例子。我们将库集成到 Web 应用程序中以收集用户事件，网络数据，异常，调试消息，DOM 更改等数据，并将此数据发送到我们的服务器。
+
+之后，我们处理收集的数据，以便你使用 SessionStack 重现产品中发生的问题。
+
+使用 Shadow DOM 产生的困难如下：我们必须监视每个 DOM 的更改，以便以后能够正确地重新放置它。我们通过使用 `MutationObserver` 来做到这一点。但是，Shadow DOM 不会在全局范围内触发 `MutationObserver` 事件，这意味着我们需要以不同方式处理这些组件。
+
+如果你想试试 [SessionStack](https://www.sessionstack.com/solutions/developers/?utm_source=medium&utm_medium=blog&utm_content=shadow-dom)，有一个免费的平台。
+
+![image](./images/shadowdom04.png)
+
+参考：
+
+* (https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)[https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM]
+* (https://developers.google.com/web/fundamentals/web-components/shadowdom)[https://developers.google.com/web/fundamentals/web-components/shadowdom]
+* (https://developers.google.com/web/fundamentals/web-components/shadowdom)[https://developers.google.com/web/fundamentals/web-components/shadowdom]
+* (https://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-201/#toc-style-host)[https://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-201/#toc-style-host]
+
+原文链接：[https://blog.sessionstack.com/how-javascript-works-the-internals-of-shadow-dom-how-to-build-self-contained-components-244331c4de6e](https://blog.sessionstack.com/how-javascript-works-the-internals-of-shadow-dom-how-to-build-self-contained-components-244331c4de6e)
