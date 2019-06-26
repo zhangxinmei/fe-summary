@@ -4,25 +4,6 @@
 
 这是专门探索 JavaScript 及其构建组件的系列文章的第 17 篇。在识别和描述核心元素的过程中，我们还分享了构建 [SessionStack](https://www.sessionstack.com/?utm_source=medium&utm_medium=blog&utm_content=js-series-parsing-intro) 时使用的一些经验法则，这是一个 JavaScript 应用程序，需要强大且较高性能，以帮助用户实时查看和重现他们的 Web 应用程序的缺陷。
 
-<!-- 如果您错过了前面的章节，可以在这里找到它们：
-
-- [An overview of the engine, the runtime, and the call stack](https://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf)
-- [Inside Google’s V8 engine + 5 tips on how to write optimized code](https://blog.sessionstack.com/how-javascript-works-inside-the-v8-engine-5-tips-on-how-to-write-optimized-code-ac089e62b12e)
-- [Memory management + how to handle 4 common memory leaks](https://blog.sessionstack.com/how-javascript-works-memory-management-how-to-handle-4-common-memory-leaks-3f28b94cfbec)
-- [The event loop and the rise of Async programming + 5 ways to better coding with async/await](https://blog.sessionstack.com/how-javascript-works-event-loop-and-the-rise-of-async-programming-5-ways-to-better-coding-with-2f077c4438b5)
-- [Deep dive into WebSockets and HTTP/2 with SSE + how to pick the right path](https://blog.sessionstack.com/how-javascript-works-deep-dive-into-websockets-and-http-2-with-sse-how-to-pick-the-right-path-584e6b8e3bf7)
-- [A comparison with WebAssembly + why in certain cases it’s better to use it over JavaScript](https://blog.sessionstack.com/how-javascript-works-a-comparison-with-webassembly-why-in-certain-cases-its-better-to-use-it-d80945172d79)
-- [The building blocks of Web Workers + 5 cases when you should use them](https://blog.sessionstack.com/how-javascript-works-the-building-blocks-of-web-workers-5-cases-when-you-should-use-them-a547c0757f6a)
-- [Service Workers, their life-cycle, and use cases](https://blog.sessionstack.com/how-javascript-works-service-workers-their-life-cycle-and-use-cases-52b19ad98b58)
-- [The mechanics of Web Push Notifications](https://blog.sessionstack.com/how-javascript-works-the-mechanics-of-web-push-notifications-290176c5c55d)
-- [Tracking changes in the DOM using MutationObserver](https://blog.sessionstack.com/how-javascript-works-tracking-changes-in-the-dom-using-mutationobserver-86adc7446401)
-- [The rendering engine and tips to optimize its performance](https://blog.sessionstack.com/how-javascript-works-the-rendering-engine-and-tips-to-optimize-its-performance-7b95553baeda)
-- [Inside the Networking Layer + How to Optimize Its Performance and Security](https://blog.sessionstack.com/how-javascript-works-inside-the-networking-layer-how-to-optimize-its-performance-and-security-f71b7414d34c)
-- [Under the hood of CSS and JS animations + how to optimize their performance](https://blog.sessionstack.com/how-javascript-works-under-the-hood-of-css-and-js-animations-how-to-optimize-their-performance-db0e79586216)
-- [Parsing, Abstract Syntax Trees (ASTs) + 5 tips on how to minimize parse time](https://blog.sessionstack.com/how-javascript-works-parsing-abstract-syntax-trees-asts-5-tips-on-how-to-minimize-parse-time-abfcf7e8a0c8)
-- [The internals of classes and inheritance + transpiling in Babel and TypeScript](https://blog.sessionstack.com/how-javascript-works-the-internals-of-classes-and-inheritance-transpiling-in-babel-and-113612cdc220)
-- [Storage engines + how to choose the proper storage API](https://blog.sessionstack.com/how-javascript-works-storage-engines-how-to-choose-the-proper-storage-api-da50879ef576) -->
-
 ### 概述
 
 Web Components 是一套不同的技术，允许创你建可重用的自定义元素。它们的功能是隔离其他代码，让你可以在 Web 应用程序中使用它们。
@@ -51,7 +32,7 @@ Shadow DOM 是被设计为用于构建基于组件的应用程序的工具，它
 - 与你创建和使用 DOM 的方式相比，Shadow DOM 关注的是如何创建以及使用它与页面的其余部分的相关
 - 以及 Shadow DOM 与页面其余部分的关系是如何表现的
 
-通常，您创建 DOM 节点并将它们作为子节点添加到另一个元素上。在 shadow DOM 的情况下，你创建一个添加到元素范围的 DOM 树，但它与实际的子元素分开。这个作用域的子树称为 **shadow tree**，它添加的元素是它的 **shadow host**。你添加到 shadow tree 的任何内容都将成为托管元素的本地元素，包括 `<style>` 标签，这就是 shadow DOM 实现 CSS scope 样式的方式。
+通常，你创建 DOM 节点并将它们作为子节点添加到另一个元素上。在 shadow DOM 的情况下，你创建一个添加到元素范围的 DOM 树，但它与实际的子元素分开。这个作用域的子树称为 **shadow tree**，它添加的元素是它的 **shadow host**。你添加到 shadow tree 的任何内容都将成为托管元素的本地元素，包括 `<style>` 标签，这就是 shadow DOM 实现 CSS scope 样式的方式。
 
 ### 创建 Shadow DOM
 
@@ -116,7 +97,7 @@ Shadow DOM 引入了以下可用于实现 Composition 的功能。
 </extended-button>
 ```
 
-### 模板
+### 模板（template）
 
 当你必须在网页上重复使用相同的标记结构时，最好使用某种模板而不是一遍又一遍地重复相同的结构。在之前这是可能的，HTML 中的`<template>` 元素（在现代浏览器中得到了很好的支持）使它变得更加容易。此元素及其内容不会在 DOM 中呈现，但仍可使用 JavaScript 来引用它。
 
@@ -128,7 +109,7 @@ Shadow DOM 引入了以下可用于实现 Composition 的功能。
 </template>
 ```
 
-在你使用 JavaScript 引用它之前，它不会出现在你的页面中，然后使用以下内容将其添加到 DOM：
+在你使用 JavaScript 引用它之前，它不会出现在你的页面中，然后使用以下方法将其添加到 DOM：
 
 ```js
 var template = document.getElementById("my-paragraph");
@@ -140,7 +121,7 @@ document.body.appendChild(templateContent);
 
 ![shadowdom02](images/shadowdom03.png)
 
-template 本身很有用，但它们使用自定义元素可以更好地工作。我们将在本系列的另一篇文章中讲述自定义元素，暂时你应该知道浏览器中的`customElement` API 允许你使用自定义渲染定义自己的标记。
+template 本身很有用，但它使用自定义元素可以更好地工作。我们将在本系列的另一篇文章中讲述自定义元素，暂时你应该知道浏览器中的`customElement` API 允许你使用自定义渲染定义自己的标记。
 
 让我们定义一个 Web 组件，它使用我们的模板作为其 shadow DOM 的内容，我们称之为 `<my-paragraph>`：
 
@@ -161,13 +142,13 @@ customElements.define(
 );
 ```
 
-这里要注意的关键点是我们将模板内容的克隆添加到 shadow root，它是使用 `Node.cloneNode()` 方法创建的。
+这里要注意的关键点是我们将模板内容克隆添加到 shadow root，它是使用 `Node.cloneNode()` 方法创建的。
 
-因为我们将其内容添加到 shadow DOM 中，所以我们可以在模板中的 `<style>` 元素中包含一些样式信息，然后将其封装在自定义元素中。如果我们只是将它添加到标准 DOM 中，这将不起作用。
+因为我们将其内容添加到 shadow DOM 中，所以可以在模板中的 `<style>` 元素中包含一些样式信息，然后将其封装在自定义元素中。如果只是将它添加到标准 DOM 中，这将不起作用。
 
-例如，我们可以将模板更改为以下内容：
+例如，可以将模板更改为以下内容：
 
-```js
+```html
 <template id="my-paragraph">
   <style>
     p {
@@ -183,7 +164,7 @@ customElements.define(
 
 现在，我们可以像这样使用模板定义的自定义组件：
 
-```js
+```html
 <my-paragraph />
 ```
 
@@ -191,11 +172,11 @@ customElements.define(
 
 Template 有一些缺点：主要是静态内容，它不允许渲染我们的变量或者数据，以使其按照你习惯使用的标准 HTML 模板的方式工作。
 
-这就是 `<slot>` 出现的原因。您可以将插槽视为占位符，允许你将自己的 HTML 放在模板中，这允许你创建通用的 HTML 模板，然后通过添加插槽使其可自定义。
+这就是 `<slot>` 出现的原因。你可以将插槽视为占位符，允许你将自己的 HTML 放在模板中，这允许你创建通用的 HTML 模板，然后通过添加插槽使其可自定义。
 
-让我们看看上面所说的模板与插槽结合的代码是如何的：
+让我们看看上面所说的模板与插槽结合的代码是什么样的：
 
-```js
+```html
 <template id="my-paragraph">
   <p>
     <slot name="my-text">Default text</slot>
@@ -203,13 +184,13 @@ Template 有一些缺点：主要是静态内容，它不允许渲染我们的�
 </template>
 ```
 
-如果在元素包含在标记中时未定义插槽的内容，或者如果浏览器不支持插槽，则 `<my-paragraph>` 将仅包含后备内容“默认文本”。
+如果在元素包含在标记中时未定义插槽的内容，或者如果浏览器不支持插槽，则 `<my-paragraph>` 将仅包含“默认文本”。
 
 要定义插槽的内容，我们应该在 `<my-paragraph>` 元素中包含一个 HTML 结构，其中 [slot](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-slot) 属性的值等于我们希望它填充的插槽的名称。
 
-和以前一样，你可以添加你喜欢的任何东西：
+和以前一样，你可以添加你喜欢的任何内容：
 
-```js
+```html
 <my-paragraph>
   <span slot="my-text">Let's have some different text!</span>
 </my-paragraph>
@@ -221,7 +202,7 @@ Template 有一些缺点：主要是静态内容，它不允许渲染我们的�
 
 在浏览器中呈现后，上面的代码将创建以下扁平 DOM 树：
 
-```js
+```html
 <my-paragraph>
   #shadow-root
   <p>
@@ -234,7 +215,7 @@ Template 有一些缺点：主要是静态内容，它不允许渲染我们的�
 
 注意 `＃shadow-root` 元素——它只是 Shadow DOM 存在的指示符。
 
-### Styling
+### 样式
 
 使用 shadow DOM 的组件可以由主页面设置样式，可以定义自己的样式，或者以 CSS 自定义属性的形式提供钩子，以便用户覆盖默认样式。
 
@@ -243,13 +224,13 @@ Template 有一些缺点：主要是静态内容，它不允许渲染我们的�
 Scoped CSS 是 Shadow DOM 的最大特色之一：
 
 - 外部页面中的 CSS 选择器不适用于组件内部。
-- 组件内定义的样式不会影响页面的其余部分，它们的范围是主机（host）元素。
+- 组件内定义的样式不会影响页面的其余部分，它们作用的范围是宿主素。
 
 Shadow DOM 中使用的 CSS 选择器应用于组件。实际上，这意味着我们可以再次使用常见的 id 或者 class 名称，而不必担心页面上其他地方的冲突，简单的 CSS 选择器意味着更好的性能。
 
 让我们看一下定义了一些样式的 `＃shadow-root`：
 
-```js
+```html
 #shadow-root
 <style>
   #container {
@@ -268,9 +249,9 @@ Shadow DOM 中使用的 CSS 选择器应用于组件。实际上，这意味着�
 
 ### :host 伪类
 
-:host 允许你选择并设置托管 shadow tree 的元素的样式：
+:host 允许你选择并设置 shadow tree 的元素的样式：
 
-```js
+```html
 <style>
   :host {
     display: block; /* by default, custom elements are display: inline */
@@ -280,9 +261,9 @@ Shadow DOM 中使用的 CSS 选择器应用于组件。实际上，这意味着�
 
 在涉及到以下内容时，你应该注意 `:host` ——父页面中的规则具有比 :host 规则中定义的内容更高的优先级。这允许用户从外部覆盖你的顶级样式。此外，`:host` 仅在 shadow root 的上下文中工作，因此你不能在 Shadow DOM 之外使用它。
 
-函数形式 `:host(<selector>)` 允许你在与 `<selector>` 匹配时定位 host。这是组件封装响应用户交互或状态的行为以及基于 host 设置内部节点样式的好方法：
+函数形式 `:host(<selector>)` 允许你在与 `<selector>` 匹配时定位 host 伪类。这是组件封装响应用户交互或状态的行为以及基于 host 伪类设置内部节点样式的好方法：
 
-```js
+```html
 <style>
   :host {
     opacity: 0.4;
@@ -306,19 +287,19 @@ Shadow DOM 中使用的 CSS 选择器应用于组件。实际上，这意味着�
 
 ### 主题和元素:host-context(<selector>) 伪类
 
-`:host-context(<selector>)` 伪类与 host 元素匹配（如果后者或其任何祖先与 `<selector>` 匹配）。
+`:host-context(<selector>)` 伪类与 宿主元素匹配（如果后者或其任何祖先与 `<selector>` 匹配）。
 
 对此的常见用途是主题，例如，许多人通过将类应用于 `<html>` 或 `<body>` 来进行主题化：
 
-```js
+```html
 <body class="lightheme">
   <custom-container>…</custom-container>
 </body>
 ```
 
-`:host-context(.lightheme)` 在它是 `.lightheme` 的后代时会设置 `<fancy-tabs>` 的样式：
+`:host-context(.lightheme)` 在类是 `.lightheme` 的后代元素时会设置 `<fancy-tabs>` 的样式：
 
-```js
+```css
 :host-context(.lightheme) {
   color: black;
   background: white;
@@ -327,11 +308,11 @@ Shadow DOM 中使用的 CSS 选择器应用于组件。实际上，这意味着�
 
 `:host-context()` 可以用于主题，但更好的方法是使用 [CSS 自定义属性创建样式钩子](https://developers.google.com/web/fundamentals/web-components/shadowdom#stylehooks)。
 
-### 从外部设置组件的 host 元素的样式
+### 从外部设置组件的宿主元素的样式
 
 你可以通过使用它们的标记名称作为选择器从外部设置组件的宿主元素，如下所示：
 
-```js
+```css
 custom-container {
   color: red;
 }
@@ -341,7 +322,7 @@ custom-container {
 
 例如，如果用户编写选择器：
 
-```js
+```css
 custom-container {
   width: 500px;
 }
@@ -355,7 +336,7 @@ custom-container {
 }
 ```
 
-样式化组件本身只会让你到现在这样，但是如果要为组件的内部构造样式会发生什么呢？为此，我们需要 CSS 自定义属性。
+样式化组件本身只能让你实现到现在这样，但是如果要为组件的内部构造样式会发生什么呢？为此，我们需要 CSS 自定义属性。
 
 ### 使用 CSS 自定义属性创建 style hooks
 
@@ -364,7 +345,7 @@ custom-container {
 这个想法与 `<slot>` 类似，但适用于样式。
 我们来看看下面的例子：
 
-```js
+```html
 <!-- main page -->
 <style>
   custom-container {
@@ -388,7 +369,7 @@ custom-container {
 
 在这种情况下，组件将使用黑色作为背景值，因为用户提供了它。否则，它将默认为#CECECE。作为组件作者，你负责让开发人员了解他们可以使用的 CSS 自定义属性并将其视为组件公共接口的一部分。
 
-### Slots JavaScript API
+### 插槽 API
 
 Shadow DOM API 提供了使用插槽的实用程序。
 
@@ -403,7 +384,7 @@ slot.addEventListener("slotchange", function(e) {
 });
 ```
 
-要监视 light DOM 的其他类型的更改，可以在元素的构造函数中使用 `MutationObserver`。我们之前已经讨论过 [MutationObserver 的内部以及如何使用它](https://blog.sessionstack.com/how-javascript-works-tracking-changes-in-the-dom-using-mutationobserver-86adc7446401)。
+要监听 light DOM 的其他类型的更改，可以在元素的构造函数中使用 `MutationObserver`。我们之前已经讨论过 [MutationObserver 的内部以及如何使用它](https://blog.sessionstack.com/how-javascript-works-tracking-changes-in-the-dom-using-mutationobserver-86adc7446401)。
 
 ### assignedNodes() 方法
 
@@ -412,7 +393,7 @@ slot.addEventListener("slotchange", function(e) {
 我们来看下面的例子：
 
 ```html
-<slot name='slot1'><p>Default content</p></slot>
+<slot name="slot1"><p>Default content</p></slot>
 ```
 
 我们假设这是一个名为 `<my-container>` 的组件，让我们来看看这个组件的不同用法以及调 `assignedNodes()` 的结果：
@@ -431,7 +412,6 @@ slot.addEventListener("slotchange", function(e) {
 
 ```html
 <my-container> </my-container>
-
 ```
 
 调用 `assignedNodes()` 的结果将返回一个空数组[]。
@@ -442,29 +422,29 @@ slot.addEventListener("slotchange", function(e) {
 
 ### 事件模型
 
-有趣的是要注意当 Shadow DOM 中发生事件冒泡时会发生什么。
-
-调整事件的目标以维持 Shadow DOM 提供的封装。当事件被重新定位时，它看起来像是来自组件本身，而不是作为组件一部分的 Shadow DOM 中的内部元素。
+有趣的是要注意当 Shadow DOM 中发生事件冒泡时会发生什么。调整事件的目标以维持 Shadow DOM 提供的封装。当事件被重新定位时，它看起来像是来自组件本身，而不是作为组件一部分的 Shadow DOM 中的内部元素。
 
 以下是从 Shadow DOM 中包含的事件列表（有些事件没有）：
 
-* **焦点 事件**：blur, focus, focusin, focusout
-* **鼠标事件**：click, dblclick, mousedown, mouseenter, mousemove 等
-* **Wheel 事件**：wheel
-* **Input 事件**：beforeinput, input
-* **键盘事件**：keydown,keyup
-* **Composition 事件**：compositionstart, compositionupdate, compositionend
-* **拖拽事件**： dragstart, drag, dragend, drop 等
+- **焦点 事件**：blur, focus, focusin, focusout
+- **鼠标事件**：click, dblclick, mousedown, mouseenter, mousemove 等
+- **Wheel 事件**：wheel
+- **Input 事件**：beforeinput, input
+- **键盘事件**：keydown,keyup
+- **Composition 事件**：compositionstart, compositionupdate, compositionend
+- **拖拽事件**： dragstart, drag, dragend, drop 等
 
 ### 自定义事件
 
-默认情况下，自定义事件不会传递到 Shadow DOM 之外。如果想要 dispatch 自定义事件并希望它传递，则需要添加 `bubbles: true` 和 `composition: true` 作为选项。
+默认情况下，自定义事件不会传递到 Shadow DOM 之外。如果想要分发自定义事件并希望它传递，则需要添加 `bubbles: true` 和 `composition: true` 作为选项。
 
-让我们看看如何 dispatch 这样的事件：
+让我们看看如何分发这样的事件：
 
 ```js
-var container = this.shadowRoot.querySelector('#container');
-container.dispatchEvent(new Event('containerchanged', {bubbles: true, composed: true}));
+var container = this.shadowRoot.querySelector("#container");
+container.dispatchEvent(
+  new Event("containerchanged", { bubbles: true, composed: true })
+);
 ```
 
 浏览器支持情况：
@@ -481,7 +461,7 @@ const supportsShadowDOMV1 = !!HTMLElement.prototype.attachShadow;
 
 之后，我们处理收集的数据，以便你使用 SessionStack 重现产品中发生的问题。
 
-使用 Shadow DOM 产生的困难如下：我们必须监视每个 DOM 的更改，以便以后能够正确地重新放置它。我们通过使用 `MutationObserver` 来做到这一点。但是，Shadow DOM 不会在全局范围内触发 `MutationObserver` 事件，这意味着我们需要以不同方式处理这些组件。
+使用 Shadow DOM 产生的困难如下：我们必须监听每个 DOM 的更改，以便以后能够正确地重新放置它。我们通过使用 `MutationObserver` 来做到这一点。但是，Shadow DOM 不会在全局范围内触发 `MutationObserver` 事件，这意味着我们需要以不同方式处理这些组件。
 
 如果你想试试 [SessionStack](https://www.sessionstack.com/solutions/developers/?utm_source=medium&utm_medium=blog&utm_content=shadow-dom)，有一个免费的平台。
 
@@ -489,9 +469,9 @@ const supportsShadowDOMV1 = !!HTMLElement.prototype.attachShadow;
 
 参考：
 
-* (https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)[https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM]
-* (https://developers.google.com/web/fundamentals/web-components/shadowdom)[https://developers.google.com/web/fundamentals/web-components/shadowdom]
-* (https://developers.google.com/web/fundamentals/web-components/shadowdom)[https://developers.google.com/web/fundamentals/web-components/shadowdom]
-* (https://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-201/#toc-style-host)[https://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-201/#toc-style-host]
+- (https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)[https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM]
+- (https://developers.google.com/web/fundamentals/web-components/shadowdom)[https://developers.google.com/web/fundamentals/web-components/shadowdom]
+- (https://developers.google.com/web/fundamentals/web-components/shadowdom)[https://developers.google.com/web/fundamentals/web-components/shadowdom]
+- (https://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-201/#toc-style-host)[https://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-201/#toc-style-host]
 
 原文链接：[https://blog.sessionstack.com/how-javascript-works-the-internals-of-shadow-dom-how-to-build-self-contained-components-244331c4de6e](https://blog.sessionstack.com/how-javascript-works-the-internals-of-shadow-dom-how-to-build-self-contained-components-244331c4de6e)
