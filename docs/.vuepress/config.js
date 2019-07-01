@@ -77,7 +77,7 @@ module.exports = {
       {
         title: "CSS",
         collapsable: false,
-        children: ["/css/bfc",'css-js-animation']
+        children: ["/css/bfc",'/css/css-js-animation']
       },
       {
         title: "Vue",
