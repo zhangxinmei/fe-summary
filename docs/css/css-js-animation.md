@@ -1,4 +1,4 @@
-# JavaScript 的工作原理：在 CS S 和 JS 动画的引擎下如何优化他们的表现
+# JavaScript 的工作原理：在 CSS 和 JS 动画的引擎下如何优化他们的表现
 
 ### 概要
 
@@ -149,5 +149,50 @@ animation.addEventListener("finish", function() {
 
 您需要了解的术语：
 
-* ease in——这是一个动作慢慢开始然后加速的时候。
+- ease in——以慢速开始加速的过渡效果。
+- ease out——以快速开始然后减速的过渡效果。
 
+这两者可以组合，例如 "ease in out"。
+
+### Easing 关键字
+
+CSS 过渡和动画允许您选择要使用的缓动类型，有不同的关键字会影响动画的缓和，您也可以完全自定义您的缓动。
+
+以下是一些可以在 CSS 中用来控制缓动的关键字：
+
+- `linear`
+- `ease-in`
+- `ease-out`
+- `ease-in-out`
+
+让我们浏览所有这些，看看它们的真正含义。
+
+### 线性动画（Linear animations）
+
+没有任何缓和的动画被称为线性 `linear`。
+
+以下是线性过渡的图形：
+
+![image](./images/p2.png)
+
+随着时间的推移，value 值会增加。对于线性运动，事物往往会让人感觉不自然。一般来说，你应该避免线性运动。
+
+以下是如何实现简单的线性动画：
+
+```css
+transition: transform 500ms linear;
+```
+
+### 减速动画（Ease-out animations）
+
+如前所述，与线性动画相比，ease-out 会使动画更快地启动，而最后会减慢动画。它的图形如下：
+
+![image](./images/p3.png)
+
+一般来说，ease-out 最适合用于 UI 工作，因为快速启动可以让动画更具有响应感，而由于运动不一致，最后的减速让人感觉很自然。
+
+有很多方法可以实现 ease-out 效果，但最简单的是在 CSS 中使用 ease-out 关键字：
+
+```css
+transition: transform 500ms ease-out;
+```
