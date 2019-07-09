@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>GraphQL 简介：原理及其使用</title>
+    <meta name="description" content="">
+    <link rel="icon" href="/fe-summary/logo.png">
+  <link rel="manifest" href="/fe-summary/manifest.json">
+  <meta name="theme-color" content="#3eaf7c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="msapplication-TileColor" content="#000000">
+    
+    <link rel="preload" href="/fe-summary/assets/css/0.styles.8ccf35ac.css" as="style"><link rel="preload" href="/fe-summary/assets/js/app.a33b5b25.js" as="script"><link rel="preload" href="/fe-summary/assets/js/7.98d2d33b.js" as="script"><link rel="prefetch" href="/fe-summary/assets/js/10.dd79e6a5.js"><link rel="prefetch" href="/fe-summary/assets/js/11.f92f314b.js"><link rel="prefetch" href="/fe-summary/assets/js/12.f55f06be.js"><link rel="prefetch" href="/fe-summary/assets/js/13.fbc3f70b.js"><link rel="prefetch" href="/fe-summary/assets/js/14.2f3ef2d3.js"><link rel="prefetch" href="/fe-summary/assets/js/15.30b50018.js"><link rel="prefetch" href="/fe-summary/assets/js/16.8f304009.js"><link rel="prefetch" href="/fe-summary/assets/js/17.1d843e99.js"><link rel="prefetch" href="/fe-summary/assets/js/18.1b431571.js"><link rel="prefetch" href="/fe-summary/assets/js/19.2db952ca.js"><link rel="prefetch" href="/fe-summary/assets/js/2.ca10805b.js"><link rel="prefetch" href="/fe-summary/assets/js/3.01bafed7.js"><link rel="prefetch" href="/fe-summary/assets/js/4.c50c9d8f.js"><link rel="prefetch" href="/fe-summary/assets/js/5.fff1f17e.js"><link rel="prefetch" href="/fe-summary/assets/js/6.766c572e.js"><link rel="prefetch" href="/fe-summary/assets/js/8.38f470bc.js"><link rel="prefetch" href="/fe-summary/assets/js/9.7b311007.js">
+    <link rel="stylesheet" href="/fe-summary/assets/css/0.styles.8ccf35ac.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/fe-summary/" class="home-link router-link-active"></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"> <a href="https://github.com/zhangxinmei/fe-summary" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"> <a href="https://github.com/zhangxinmei/fe-summary" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>简介</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/fe-summary/" class="sidebar-link">简介</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>JS</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/fe-summary/js/javascriptType.html" class="sidebar-link">基本类型和引用类型</a></li><li><a href="/fe-summary/js/clone.html" class="sidebar-link">深拷贝和浅拷贝</a></li><li><a href="/fe-summary/js/object.html" class="sidebar-link">创建对象</a></li><li><a href="/fe-summary/js/inherit.html" class="sidebar-link">继承</a></li><li><a href="/fe-summary/js/function.html" class="sidebar-link">函数表达式</a></li><li><a href="/fe-summary/js/closure.html" class="sidebar-link">闭包</a></li><li><a href="/fe-summary/js/shadowdom.html" class="sidebar-link">JavaScript 的工作原理：Shadow DOM 的内部结构以及如何构建可封装的组件</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>CSS</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/fe-summary/css/bfc.html" class="sidebar-link">块格式化上下文(BFC)</a></li><li><a href="/fe-summary/css/css-js-animation.html" class="sidebar-link">JavaScript 的工作原理：在 CSS 和 JS 动画的引擎下如何优化他们的表现</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>Vue</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/fe-summary/vue/vue.html" class="sidebar-link">vue</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>GraphQl</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/fe-summary/graphql/graphql-node.html" class="active sidebar-link">GraphQL 简介：原理及其使用</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#安装依赖项" class="sidebar-link">安装依赖项</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#nodejs-代码" class="sidebar-link">NodeJS 代码</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#在代码中启用-graphql" class="sidebar-link">在代码中启用 GraphQL</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#graphiql" class="sidebar-link">graphiql</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#schema" class="sidebar-link">schema</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#查询（query）" class="sidebar-link">查询（query）</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#查询说明" class="sidebar-link">查询说明</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#运行应用程序" class="sidebar-link">运行应用程序</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#恭喜你！😃" class="sidebar-link">恭喜你！😃</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#添加更多资源路径" class="sidebar-link">添加更多资源路径</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#添加数据" class="sidebar-link">添加数据</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#将-movie-资源路径添加到查询中" class="sidebar-link">将 movie 资源路径添加到查询中</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#添加自定义类型-movietype" class="sidebar-link">添加自定义类型 movieType</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#为-director-资源路径添加查询和类型" class="sidebar-link">为 director 资源路径添加查询和类型</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#directortype-的特殊性" class="sidebar-link">directorType 的特殊性</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#代码" class="sidebar-link">代码</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#应用程序测试" class="sidebar-link">应用程序测试</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#movie" class="sidebar-link">movie</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#director" class="sidebar-link">director</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#恭喜-😃" class="sidebar-link">恭喜 😃</a></li><li class="sidebar-sub-header"><a href="/fe-summary/graphql/graphql-node.html#关于原作者" class="sidebar-link">关于原作者</a></li></ul></li></ul></li><li><a href="/fe-summary/graphql/graphql.html" class="sidebar-link">GraphQL入门指南</a></li><li><a href="/fe-summary/graphql/graphql-shemal-design.html" class="sidebar-link">GraphQL Schema 设计：构建可演进的 Schema</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>V8</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/fe-summary/V8/V8.html" class="sidebar-link">极快的解析，第 1 部分：优化扫描仪</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h1 id="graphql-简介：原理及其使用"><a href="#graphql-简介：原理及其使用" aria-hidden="true" class="header-anchor">#</a> GraphQL 简介：原理及其使用</h1> <p><img src="/fe-summary/assets/img/graphql-01.a66e9b1a.jpeg" alt="Photo by Matt Duncan on Unsplash"></p> <blockquote><p>GraphQL 是 API 的查询语言，它显示了服务器提供的不同类型的数据，然后客户端可以准确地选择它想要的内容。</p></blockquote> <p>同样在 GraphQL 中，你可以一次性调用多个服务器资源，而不在需要进行多个 REST API 调用。</p> <p>你可以通过访问 <a href="https://graphql.org/" target="_blank" rel="noopener noreferrer">https://graphql.org/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 来了解 GraphQL 的所有优点。我们必须在实践中使用 GraphQL，否则你很难理解它的优点，那么现在就让我们开始使用 GraphQL 吧~</p> <p>我们将在本文中使用 GraphQL 和 NodeJS。</p> <h3 id="先决条件"><a href="#先决条件" aria-hidden="true" class="header-anchor">#</a> 先决条件</h3> <p>安装 NodeJS：<a href="https://nodejs.org/en/" target="_blank" rel="noopener noreferrer">https://nodejs.org/en/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <h3 id="如何将-graphql-与-nodejs-一起使用？"><a href="#如何将-graphql-与-nodejs-一起使用？" aria-hidden="true" class="header-anchor">#</a> 如何将 GraphQL 与 NodeJs 一起使用？</h3> <p>GraphQL 可以与多种语言一起使用，这篇文章中，我们将重点介绍如何通过 NodeJS 将 GraphQL 与 JavaScript 结合使用。</p> <p>新建一个名为 graphql-with-nodejs 的文件夹，进入项目文件夹并运行 <code>npm init</code> 来创建 NodeJS 项目，终端命令如下：</p> <div class="language-js extra-class"><pre class="language-js"><code>
+cd graphql<span class="token operator">-</span><span class="token keyword">with</span><span class="token operator">-</span>nodejs
+npm init
+
+</code></pre></div><h2 id="安装依赖项"><a href="#安装依赖项" aria-hidden="true" class="header-anchor">#</a> 安装依赖项</h2> <p>使用以下命令安装 Express：</p> <div class="language-js extra-class"><pre class="language-js"><code>npm install express
+</code></pre></div><p>我们将使用以下命令安装 GraphQL 和 GraphQL for Express：</p> <div class="language-js extra-class"><pre class="language-js"><code>
+npm install express<span class="token operator">-</span>graphql graphql
+
+</code></pre></div><h3 id="nodejs-代码"><a href="#nodejs-代码" aria-hidden="true" class="header-anchor">#</a> NodeJS 代码</h3> <p>在项目中创建一个名叫 server.js 的文件，并将以下代码复制到其中：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> port <span class="token operator">=</span> <span class="token number">5000</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">&quot;/hello&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Server Running at localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>上面的代码有一个名为 /hello 的 HTTP GET 请求，这个请求是使用 Express 创建的。现在，让我们修改此代码来启用 GraphQL。</p> <h3 id="在代码中启用-graphql"><a href="#在代码中启用-graphql" aria-hidden="true" class="header-anchor">#</a> 在代码中启用 GraphQL</h3> <p>GraphQL 有一个名为 /graphql 的单一的 URL 资源路径，它将处理所有的请求。</p> <p>将以下代码复制到 server.js 中：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//get all the libraries needed</span>
+<span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> graphqlHTTP <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express-graphql&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> GraphQLSchema <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;graphql&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> queryType <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./query.js&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//setting up the port number and express app</span>
+<span class="token keyword">const</span> port <span class="token operator">=</span> <span class="token number">5000</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Define the Schema</span>
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span> query<span class="token punctuation">:</span> queryType <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//Setup the nodejs GraphQL server</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  <span class="token string">&quot;/graphql&quot;</span><span class="token punctuation">,</span>
+  <span class="token function">graphqlHTTP</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    schema<span class="token punctuation">:</span> schema<span class="token punctuation">,</span>
+    graphiql<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`GraphQL Server Running at localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>现在让我们来看看这段代码吧~</p> <p><strong>graphqlHTTP</strong> 使我们能够在 /graphql url 中设置 GraphQL 服务器，它知道如何处理即将发生的请求。这个设置在以下代码行中完成：</p> <div class="language-js extra-class"><pre class="language-js"><code>app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  <span class="token string">&quot;/graphql&quot;</span><span class="token punctuation">,</span>
+  <span class="token function">graphqlHTTP</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    schema<span class="token punctuation">:</span> schema<span class="token punctuation">,</span>
+    graphiql<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>现在，让我们一起来探索 graphqlHTTP 中的参数吧~</p> <h3 id="graphiql"><a href="#graphiql" aria-hidden="true" class="header-anchor">#</a> graphiql</h3> <p>graphiql 是一个 Web UI，您可以使用它来测试 GraphQL 资源路径。我们将其设置为 true，以便更容易测试我们创建的各种 GraphQL 请求路径。</p> <h3 id="schema"><a href="#schema" aria-hidden="true" class="header-anchor">#</a> schema</h3> <p>GraphQL 有一个外部资源路径 /graphql，这个资源路径可以有多个其他资源路径执行各种操作，这些资源路径可以在 schema 中被指定。</p> <p>schema 将执行以下操作：</p> <ul><li><p>指定资源路径</p></li> <li><p>指示资源路径的输入和输出字段</p></li> <li><p>指示在命中资源路径时应执行的操作，依此类推</p></li></ul> <p>schema 在代码中定义如下：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span> query<span class="token punctuation">:</span> queryType <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>schema 可以包含 <strong>Query</strong> 和 <strong>Mutation</strong> 类型，但是这篇文章将仅关注 Query 类型。</p> <h3 id="查询（query）"><a href="#查询（query）" aria-hidden="true" class="header-anchor">#</a> 查询（query）</h3> <p>你可以在 schema 中看到查询已设置为 queryType，我们使用以下命令从 query.js 文件中导入 queryType：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> queryType <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./query.js&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>query.js 是我们即将创建的自定义文件，query 是我们在 schema 中指定只读请求路径的地方。</p> <p>在项目中新建一个名为 query.js 的文件，并将以下代码复制到其中：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> GraphQLObjectType<span class="token punctuation">,</span> GraphQLString <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;graphql&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//Define the Query</span>
+<span class="token keyword">const</span> queryType <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">&quot;Query&quot;</span><span class="token punctuation">,</span>
+  fields<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    hello<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> GraphQLString<span class="token punctuation">,</span>
+
+      resolve<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">&quot;Hello World&quot;</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+exports<span class="token punctuation">.</span>queryType <span class="token operator">=</span> queryType<span class="token punctuation">;</span>
+</code></pre></div><h3 id="查询说明"><a href="#查询说明" aria-hidden="true" class="header-anchor">#</a> 查询说明</h3> <p>queryType 创建为 <strong>GraphQLObjectType</strong> 并命名为 Query。<strong>fields</strong> 是我们指定各种资源路径的地方，因此我们在这里添加一个名为 hello 的资源路径，hello 有一个 GraphQLString 类型，这意味着该资源路径的返回类型为 String。这里的类型是 GraphQLString 而不是 String，因为这是 GraphQL scheme，因此直接使用 String 是不行的。</p> <p>resolve 函数表示调用请求时要执行的操作，这里的操作是返回一个字符串 Hello World。</p> <p>最后，我们用 <code>exports.queryType = queryType</code> 导出 querytype，这是为了确保我们可以在 <strong>server.js</strong> 中导入它。</p> <h3 id="运行应用程序"><a href="#运行应用程序" aria-hidden="true" class="header-anchor">#</a> 运行应用程序</h3> <p>使用以下命令运行应用程序：</p> <div class="language-js extra-class"><pre class="language-js"><code>node server<span class="token punctuation">.</span>js
+</code></pre></div><p>你可以通过访问 localhost:5000/graphql 本地运行和测试该程序。</p> <p>此 URL 在 Graphiql Web UI 中运行，如下图所示：</p> <p><img src="/fe-summary/assets/img/graphql-02.4fe70b7b.jpg" alt="Graphiql Web UI"></p> <p>左边输入相应查询，右边为相应的输出，输入以下查询：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  hello<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>对应的输出如下：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;data&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;hello&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Hello World&quot;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="恭喜你！😃"><a href="#恭喜你！😃" aria-hidden="true" class="header-anchor">#</a> 恭喜你！😃</h3> <p>你已经创建了第一个 GraphQL 资源路径。</p> <h3 id="添加更多资源路径"><a href="#添加更多资源路径" aria-hidden="true" class="header-anchor">#</a> 添加更多资源路径</h3> <p>我们将会创建 2 个新的资源路径：</p> <ul><li><p><strong>movie</strong>：这个资源路径将会返回指定 ID 的电影</p></li> <li><p><strong>director</strong>：这个资源路径将返回指定 ID 的导演，还将返回该导演指导的所有电影。</p></li></ul> <h3 id="添加数据"><a href="#添加数据" aria-hidden="true" class="header-anchor">#</a> 添加数据</h3> <p>通常，一个应用程序将从数据库中读取数据，但是在本教程中，我们将简单地对代码本身中的数据进行硬编码。</p> <p>创建一个名为 data.js 的文件，并添加以下代码：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//Hardcode some data for movies and directors</span>
+<span class="token keyword">let</span> movies <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">&quot;Movie 1&quot;</span><span class="token punctuation">,</span>
+    year<span class="token punctuation">:</span> <span class="token number">2018</span><span class="token punctuation">,</span>
+    directorId<span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">&quot;Movie 2&quot;</span><span class="token punctuation">,</span>
+    year<span class="token punctuation">:</span> <span class="token number">2017</span><span class="token punctuation">,</span>
+    directorId<span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">&quot;Movie 3&quot;</span><span class="token punctuation">,</span>
+    year<span class="token punctuation">:</span> <span class="token number">2016</span><span class="token punctuation">,</span>
+    directorId<span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> directors <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">&quot;Director 1&quot;</span><span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span> <span class="token number">20</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">&quot;Director 2&quot;</span><span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span> <span class="token number">30</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">&quot;Director 3&quot;</span><span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span> <span class="token number">40</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+exports<span class="token punctuation">.</span>movies <span class="token operator">=</span> movies<span class="token punctuation">;</span>
+exports<span class="token punctuation">.</span>directors <span class="token operator">=</span> directors<span class="token punctuation">;</span>
+</code></pre></div><p>此文件包含 movies 和 directors 数据，我们将使用此文件中的数据作为我们请求所需的数据。</p> <h3 id="将-movie-资源路径添加到查询中"><a href="#将-movie-资源路径添加到查询中" aria-hidden="true" class="header-anchor">#</a> 将 movie 资源路径添加到查询中</h3> <p>新的资源路径将被添加到 query.js 文件中的 queryType 中。</p> <div class="language-js extra-class"><pre class="language-js"><code>movie<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            type<span class="token punctuation">:</span> movieType<span class="token punctuation">,</span>
+            args<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                id<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLInt <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            resolve<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>source<span class="token punctuation">,</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> _<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>movies<span class="token punctuation">,</span> <span class="token punctuation">{</span> id<span class="token punctuation">:</span> args<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+</code></pre></div><p>这个请求的返回类型是 movieType，args 参数用于指示 movie 资源路径的输入，这个资源路径的输入是 id，其类型为 <strong>GraphQLInt</strong>。resolve 函数从电影列表中返回与 id 相匹配的电影。<strong>find</strong> 是 lodash 中的一个函数，用于查找列表中的元素。</p> <p>query.js 的完整代码如下所示：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> GraphQLObjectType<span class="token punctuation">,</span> GraphQLString<span class="token punctuation">,</span> GraphQLInt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;graphql&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> _ <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;lodash&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> movieType <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./types.js&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> <span class="token punctuation">{</span> movies <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./data.js&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//Define the Query</span>
+<span class="token keyword">const</span> queryType <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">&quot;Query&quot;</span><span class="token punctuation">,</span>
+  fields<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    hello<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> GraphQLString<span class="token punctuation">,</span>
+
+      resolve<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">&quot;Hello World&quot;</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    movie<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> movieType<span class="token punctuation">,</span>
+      args<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        id<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLInt <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      resolve<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>source<span class="token punctuation">,</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> _<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>movies<span class="token punctuation">,</span> <span class="token punctuation">{</span> id<span class="token punctuation">:</span> args<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+exports<span class="token punctuation">.</span>queryType <span class="token operator">=</span> queryType<span class="token punctuation">;</span>
+</code></pre></div><p>从上面的代码中，我们可以看到 <strong>movieType</strong> 实际上是在 types.js 中定义的。</p> <h3 id="添加自定义类型-movietype"><a href="#添加自定义类型-movietype" aria-hidden="true" class="header-anchor">#</a> 添加自定义类型 movieType</h3> <p>创建一个名为 types.js 的文件，并添加以下代码：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span>
+  GraphQLObjectType<span class="token punctuation">,</span>
+  GraphQLID<span class="token punctuation">,</span>
+  GraphQLString<span class="token punctuation">,</span>
+  GraphQLInt
+<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;graphql&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Define Movie Type</span>
+movieType <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">&quot;Movie&quot;</span><span class="token punctuation">,</span>
+  fields<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLID <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLString <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    year<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLInt <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    directorId<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLID <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+exports<span class="token punctuation">.</span>movieType <span class="token operator">=</span> movieType<span class="token punctuation">;</span>
+</code></pre></div><p>可以看出 <strong>movieType</strong> 是以 <strong>GraphQLObjectType</strong> 创建的，它有 4 个字段：id，name，year 和 directorId，在添加这些字段时，也会指定每个字段的类型。这些字段直接从数据中来的，在我们的这个例子中，它将来自电影列表。</p> <h3 id="为-director-资源路径添加查询和类型"><a href="#为-director-资源路径添加查询和类型" aria-hidden="true" class="header-anchor">#</a> 为 director 资源路径添加查询和类型</h3> <p>和 movie 一样，我们甚至还可以添加 director 资源路径。在 query.js 中，可以按如下方式添加 director 资源路径：</p> <div class="language-js extra-class"><pre class="language-js"><code>director<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            type<span class="token punctuation">:</span> directorType<span class="token punctuation">,</span>
+            args<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                id<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLInt <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            resolve<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>source<span class="token punctuation">,</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> _<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>directors<span class="token punctuation">,</span> <span class="token punctuation">{</span> id<span class="token punctuation">:</span> args<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+</code></pre></div><p>可以在 types.js 中添加 directorType 代码：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//Define Director Type</span>
+directorType <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">&quot;Director&quot;</span><span class="token punctuation">,</span>
+  fields<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLID <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLString <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GraphQLInt <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    movies<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLList</span><span class="token punctuation">(</span>movieType<span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token function">resolve</span><span class="token punctuation">(</span>source<span class="token punctuation">,</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> _<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>movies<span class="token punctuation">,</span> <span class="token punctuation">{</span> directorId<span class="token punctuation">:</span> source<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>等等，<strong>directorType</strong> 与 <strong>movieType</strong> 略有不同？这是为什么呢？为什么在 <strong>directorType</strong> 中有 resolve 函数？以前我们看到 resolve 函数只出现在查询中...</p> <h3 id="directortype-的特殊性"><a href="#directortype-的特殊性" aria-hidden="true" class="header-anchor">#</a> directorType 的特殊性</h3> <p>当 <strong>director</strong> 资源路径被调用时，我们必须返回导演的详细信息，以及该导演指导的所有电影。directorType 中的前 3 个字段 id，name，age 直接从导演列表中获取数据，第 4 个字段 movies 需要包含这位导演的电影列表。为此，我们提到的 movies 字段的类型是 GraphQLList 中的 movieType。</p> <p>但是我们究竟如何找到这位导演导演的所有电影呢？</p> <p>为此，我们在 movies 字段里面定义了一个 resolve 函数，resolve 函数的输入参数是 source 和 args，source 将具有父对象的详细信息。</p> <p>这时候我们让 director 的 id =1, name = &quot;Random&quot; ，age = 20，并且 source.id = 1，source.name =&quot;Random&quot;,source.age = 20。</p> <p>因此，在这个例子中，resolve 函数找出了 directorId 与所需 Director 的 Id 匹配的所有影片。</p> <h3 id="代码"><a href="#代码" aria-hidden="true" class="header-anchor">#</a> 代码</h3> <p><a href="https://github.com/aditya-sridhar/graphql-with-nodejs" target="_blank" rel="noopener noreferrer">GitHub repo<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 提供了这个项目的完整代码。</p> <h3 id="应用程序测试"><a href="#应用程序测试" aria-hidden="true" class="header-anchor">#</a> 应用程序测试</h3> <p>现在让我们测试不同场景的应用程序，使用 <code>node server.js</code> 运行这个程序，本地访问 localhost:5000/graphql 并尝试输入以下内容。</p> <h3 id="movie"><a href="#movie" aria-hidden="true" class="header-anchor">#</a> movie</h3> <p>输入：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token function">movie</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>输出：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;data&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;movie&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Movie 1&quot;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>输出：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;data&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;director&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Director 1&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;id&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;1&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;age&quot;</span><span class="token punctuation">:</span> <span class="token number">20</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>从上面我们可以看到客户端可以准确地请求它想要的数据，GraphQL 将确保只返回那些想要的参数。这里仅请求 <code>name</code> 字段，并且仅由服务器返回。</p> <p>在 <code>movie(id:1)</code> 中，id 是输入参数，我们要求服务器返回 id 为 1 的电影。</p> <p>输入：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token function">movie</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name
+    id
+    year
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>输出：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;data&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;movie&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Movie 3&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;id&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;3&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;year&quot;</span><span class="token punctuation">:</span> <span class="token number">2016</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>上面的例子中，请求的字段是：name，id 和 year，所以服务器返回所有这些字段。</p> <h3 id="director"><a href="#director" aria-hidden="true" class="header-anchor">#</a> director</h3> <p>输入：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token function">director</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name
+    id<span class="token punctuation">,</span>
+    age
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>输出：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;data&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;director&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Director 1&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;id&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;1&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;age&quot;</span><span class="token punctuation">:</span> <span class="token number">20</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>输入：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token function">director</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name
+    id<span class="token punctuation">,</span>
+    age<span class="token punctuation">,</span>
+    movies<span class="token punctuation">{</span>
+      name<span class="token punctuation">,</span>
+      year
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>输出：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;data&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;director&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Director 1&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;id&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;1&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;age&quot;</span><span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;movies&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Movie 1&quot;</span><span class="token punctuation">,</span>
+          <span class="token string">&quot;year&quot;</span><span class="token punctuation">:</span> <span class="token number">2018</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Movie 2&quot;</span><span class="token punctuation">,</span>
+          <span class="token string">&quot;year&quot;</span><span class="token punctuation">:</span> <span class="token number">2017</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>通过上面的例子，我们看到了 GraphQL 的强大功能。我们想要查找一个 id 为 1 的导演，另外，我们想要找出这位 id 为 1 的导演的所有电影。 director 和 movie 字段都是可定制的，客户可以准确地定制他们想要的字段。</p> <p>同样，我们还可以扩展到其他字段和类型。例如，我们可以运行一个查询查找 id 为 1 的导演，并根据这位导演找到他所有的电影，再为每部电影找到相对应的演员，并且找出每个获得评级前 5 名的演员所参演的电影，依此类推。对于此查询，我们需要指定类型之间的关系，一旦我们这样做，客户端就可以查询它想要的任何关系。</p> <h3 id="恭喜-😃"><a href="#恭喜-😃" aria-hidden="true" class="header-anchor">#</a> 恭喜 😃</h3> <p>你现在已经了解了 <strong>GraphQL</strong> 的基本概念。你可以通过查看<a href="https://graphql.github.io/learn/" target="_blank" rel="noopener noreferrer">官方文档<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>来了解有关 GraphQL 的更多信息。</p> <h3 id="关于原作者"><a href="#关于原作者" aria-hidden="true" class="header-anchor">#</a> 关于原作者</h3> <p>LinkedIn：<a href="https://www.linkedin.com/in/aditya1811/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/aditya1811/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p>twitter：<a href="https://twitter.com/adityasridhar18" target="_blank" rel="noopener noreferrer">https://twitter.com/adityasridhar18<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p>个人网站：<a href="https://adityasridhar.com/" target="_blank" rel="noopener noreferrer">https://adityasridhar.com/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p>原文地址：<a href="https://medium.freecodecamp.org/an-introduction-to-graphql-how-it-works-and-how-to-use-it-91162ecd72d0" target="_blank" rel="noopener noreferrer">https://medium.freecodecamp.org/an-introduction-to-graphql-how-it-works-and-how-to-use-it-91162ecd72d0<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p></div> <div class="page-edit"><div class="edit-link"><a href="https://github.com/zhangxinmei/fe-summary/edit/master/docs/graphql/graphql-node.md" target="_blank" rel="noopener noreferrer">编辑此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">上次更新: </span> <span class="time">3/12/2019, 10:34:29 AM</span></div></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/fe-summary/vue/vue.html" class="prev">
+          vue
+        </a></span> <span class="next"><a href="/fe-summary/graphql/graphql.html">
+          GraphQL入门指南
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/fe-summary/assets/js/app.a33b5b25.js" defer></script><script src="/fe-summary/assets/js/7.98d2d33b.js" defer></script>
+  </body>
+</html>
