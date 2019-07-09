@@ -145,7 +145,7 @@ animation.addEventListener("finish", function() {
 
 ### 什么是 Easing？
 
-自然运动使用户对你的 web 应用感觉更舒适，从而带来更好的用户体验。当然，没有任何东西从一个点到另一个点线性移动。实际上，当事物在我们周围的物理世界中移动时，事物往往会加速或减速，因为我们不是在真空中，并且有不同的因素往往会影响这一点。人类的大脑是有线的，期待这种运动，所以当你在 web 应用程序时中使用动画时，你应该利用这些知识来成为自己的优势。
+自然运动使用户对你的 web 应用感觉更舒适，从而带来更好的用户体验。当然，没有任何东西从一个点到另一个点是线性移动的。实际上，当事物在我们周围的物理世界中移动时，事物往往会加速或减速，因为我们不是在真空中，并且有不同的因素往往会影响这一点。人类的大脑是有线的，期待这种运动，所以当你在 web 应用程序时中使用动画时，你应该利用这些知识来成为自己的优势。
 
 你需要了解的术语：
 
@@ -229,7 +229,7 @@ transition: transform 500ms ease-in-out;
 
 你可以定义自己的缓动曲线，它可以更好地控制项目动画创建的感觉。
 
-实际上，easy-in，ease-out，linear，ease 关键字映射到预定义的[贝塞尔曲线](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)，这些曲线在[CSS 转换规范](http://www.w3.org/TR/css3-transitions/)和[Web 动画规范](https://w3c.github.io/web-animations/#scaling-using-a-cubic-bezier-curve)中有详细说明。
+实际上，ease-in，ease-out，linear，ease 关键字映射到预定义的[贝塞尔曲线](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)，这些曲线在[CSS 转换规范](http://www.w3.org/TR/css3-transitions/)和[Web 动画规范](https://w3c.github.io/web-animations/#scaling-using-a-cubic-bezier-curve)中有详细说明。
 
 ### 贝塞尔曲线
 
@@ -284,3 +284,27 @@ will-change 在 Chrome，Firefox 和 Opera 上的支持非常又好。
 - 在许多情况下，对`transforms`和`opacity`的更改也可以由合成器线程处理。
 
 - 如果任何动画触发绘画，布局或两者，则需要“主线程”才能完成工作。这对于基于 CSS 和 JavaScript 的动画都是如此，布局或绘制的开销可能会使与 CSS 或 JavaScript 执行相关的任何工作相形见绌，这使得问题没有实际意义。
+
+### 正确选择制作动画的内容
+
+精彩的动画能为你的用户增添一层乐趣和参与度。你可以为自己喜欢的任何内容设置动画，无论是宽度，高度，位置，颜色或背景，但是你需要了解潜在的性能瓶颈。选择不当的动画可能会对用户体验产生负面影响，因此动画需要既高效又适当。适当的使用动画，动画只是为了让你的用户体验感觉更加自然，但不要过度动画。
+
+### 使用动画来加强互动
+
+不要随意使用动画，相反，使用策略性放置的动画来加强用户交互，避免动画不必要地中断或阻碍用户的活动。
+
+### 避免高耗性能的动画
+
+唯一比放置不当的动画更糟糕的是那些导致页面卡顿的东西，这种类型的动画让用户感到沮丧和不快乐。
+
+我们在[SessionStack](https://www.sessionstack.com/?utm_source=medium&utm_medium=blog&utm_content=js-series-rendering-engine-outro)中使用动画非常容易。一般来说，我们遵循上面提到的做法，但由于 UI 的复杂性，我们还有一些场景需要利用动画。SessionStack 必须将最终用户在浏览 Web 应用程序时遇到问题时发生的所有事情重新创建为视频。为此，SessionStack 仅利用我们的库在会话期间收集的数据：用户事件，DOM 更改，网络请求，异常，调试消息等。我们的播放器经过高度优化，可以正确渲染和利用所有收集的数据，从视觉和技术角度提供最终用户浏览器及其中发生的所有事情的像素的完美模拟。
+
+为了确保复制感觉自然，特别是对于长时间和繁重的用户会话，我们使用动画来正确指示加载或缓冲并遵循如何实现它们的最佳实践，以便我们不占用太多 CPU 时间和离开事件循环来免费呈现会话。
+
+### 资源
+
+- [https://developers.google.com/web/fundamentals/design-and-ux/animations/css-vs-javascript](https://developers.google.com/web/fundamentals/design-and-ux/animations/css-vs-javascript)
+
+- [https://developers.google.com/web/fundamentals/design-and-ux/animations/](https://developers.google.com/web/fundamentals/design-and-ux/animations/)
+
+- [https://developers.google.com/web/fundamentals/design-and-ux/animations/animations-and-performance](https://developers.google.com/web/fundamentals/design-and-ux/animations/animations-and-performance)
