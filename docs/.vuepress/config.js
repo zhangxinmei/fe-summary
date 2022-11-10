@@ -97,6 +97,11 @@ module.exports = {
         title: "V8",
         collapsable: false,
         children: ["/V8/V8"]
+      },
+      {
+        title: "Chrome",
+        collapsable: false,
+        children: ["/chrome/extensions"]
       }
     ]
   }
