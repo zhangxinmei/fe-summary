@@ -47,6 +47,13 @@ module.exports = {
       }
     ]
   ],
+  locales: {
+    '/': {
+      lang: 'zh-CN',
+      title: 'zhangxinmei',
+      description: '个人前端知识总结'
+    },
+  },
   themeConfig: {
     repo: "zhangxinmei/fe-summary",
     docsDir: "docs",
@@ -102,7 +109,15 @@ module.exports = {
         title: "Chrome",
         collapsable: false,
         children: ["/chrome/extensions"]
-      }
+      },
+      {
+        title: "前端工具类",
+        collapsable: false,
+        children: [
+          "/tools/terminal",
+          "/tools/useful"
+        ]
+      },
     ]
   }
 };
